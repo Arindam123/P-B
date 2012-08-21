@@ -17,8 +17,10 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "Facebook.h"
 #import "Toolbar.h"
+#import "ServerConnection.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RealAleDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate>{
+@interface RealAleDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,ServerConnectionDelegate>{
     
     UITableView *tableale;
     UIButton *backButton;
@@ -50,8 +52,13 @@
     NSMutableArray *searchArray;
     UILabel *searchLabel;
     CGSize expectedLabelSize;
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
     
 }
+@property(assign,getter=isReloading) BOOL reloading;
 @property (nonatomic,retain)NSString *strPostcode;
 @property (nonatomic,retain)UILabel *Title_lbl;
 @property (nonatomic,retain)UIView *vw_search;
@@ -87,5 +94,7 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
+- (void)dataSourceDidFinishLoadingNewData;
+-(void) deletedDataCalling:(int)_callerNumber;
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withString:(NSString *) _str3 andString:(NSString *) _str8;
 @end

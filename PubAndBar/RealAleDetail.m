@@ -14,6 +14,12 @@
 #import "TwitterViewController.h"
 #import "LinkedINViewController.h"
 #import "ASIHTTPRequest.h"
+#import "URLRequestString.h"
+#import "InternetValidation.h"
+#import "DBFunctionality.h"
+#import "JSON.h"
+#import "DBFunctionality4Update.h"
+#import "DBFunctionality4Delete.h"
 
 
 
@@ -131,8 +137,6 @@ AppDelegate *app;
     text_field.textColor=[UIColor blackColor];
     text_field.returnKeyType = UIReturnKeyDone;
     text_field.autocorrectionType = UITextAutocorrectionTypeNo;
-    text_field.layer.borderWidth = 2.0;
-    text_field.layer.borderColor = [UIColor clearColor].CGColor;
     
     lblHeader = [[UILabel alloc] init];
     lblHeader.backgroundColor = [UIColor clearColor];
@@ -182,9 +186,18 @@ AppDelegate *app;
     [self.view addSubview:searchLabel];
     [self.view addSubview:text_field];
     [self.view addSubview:lblHeader];
+    
+   
 
     [backButton release];
     [self setAleViewFrame];
+
+    if (refreshHeaderView == nil) {
+        refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - tableale.bounds.size.height, 320.0f, tableale.bounds.size.height)];
+        refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+        [tableale addSubview:refreshHeaderView];
+        [refreshHeaderView release];
+    }
 
     //[vw_search release];
   //  [Title_lbl release];
@@ -192,6 +205,252 @@ AppDelegate *app;
     //[btnsearch release];
 
 }
+
+
+#pragma mark
+#pragma mark PullTableViewRefresh Delegates
+
+
+- (void)reloadTableViewDataSource{
+	
+    [self performSelector:@selector(callingServer)];
+}
+
+
+
+- (void)doneLoadingTableViewData{
+    
+  	[self dataSourceDidFinishLoadingNewData];
+    
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	if (scrollView.isDragging) {
+		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshNormal];
+		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshPulling];
+		}
+	}
+    
+    
+}
+
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
+		_reloading = YES;
+		[self performSelector:@selector(reloadTableViewDataSource) withObject:nil afterDelay:0.2];
+		[refreshHeaderView setState:EGOOPullRefreshLoading];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.2];
+		tableale.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+		[UIView commitAnimations];
+	}
+}
+
+
+- (void)dataSourceDidFinishLoadingNewData{
+	
+    //[self performSelector:@selector(dismissHUD:)];
+	_reloading = NO;
+	[tableale reloadData];
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:.3];
+	[tableale setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+	[UIView commitAnimations];
+	
+	[refreshHeaderView setState:EGOOPullRefreshNormal];
+	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
+}
+-(void) callingServer
+{    
+    if([InternetValidation  checkNetworkStatus])
+    {
+        
+        //str_RefName =;
+        ServerConnection *conn1 = [[ServerConnection alloc] init];
+        [conn1 setServerDelegate:self];
+        
+        [conn1 getRealAleData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
+        
+        [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
+        [conn1 release];
+    }
+    else
+    {
+        
+        UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:@"Internet Connection is Unavailable." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        alert.tag = 30;
+        [alert  show];
+        [alert  release];
+    }
+}
+
+-(void)afterSuccessfulConnection:(NSString*)data_Response
+{
+    if (!deletedDataCall) {
+        
+        NSDictionary *json = [data_Response JSONValue];
+        
+        
+        NSMutableArray *realAleArray = [[[json valueForKey:@"Details"] valueForKey:@"Brewery Details"] retain];
+        
+        
+        if ([realAleArray count] !=0) {
+            
+            for (int i = 0; i<[realAleArray count]; i++) {
+                
+                
+                
+                NSMutableArray *beerDetailsArray = [[[realAleArray objectAtIndex:i] valueForKey:@"Beer Details"] retain];
+                
+                for (int j = 0; j<[beerDetailsArray count]; j++) {
+                    
+                    
+                    NSMutableArray *pubDetailsArray = [[[beerDetailsArray objectAtIndex:j] valueForKey:@"Pub Information"] retain];
+                    
+                    
+                    for (int k = 0; k< [pubDetailsArray count]; k++) {
+                        
+                        
+                        
+                        [[DBFunctionality sharedInstance] InsertValue_RealAle_Type:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withName:[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Name"] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] pubDistance:0.0];//distance/1000
+                        
+                        [[DBFunctionality sharedInstance] InsertValue_Beer_Detail:[[[beerDetailsArray objectAtIndex:j] valueForKey:@"Beer ID"] intValue] withBreweryID:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withBeerName:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Ale Name"] withBeerCategory:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Category"] pubDistance:0.0];//distance/1000
+                        
+                        
+                        
+                        [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubDetailsArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000 
+                    }
+                    [pubDetailsArray release];
+                }
+                
+                [beerDetailsArray release];
+            }
+            
+            
+        }
+        [realAleArray release];
+        
+        
+        [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
+        [self deletedDataCalling:4];
+        
+    }
+    
+    
+    else
+    {
+        NSDictionary *json = [data_Response JSONValue];
+        
+        
+        NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
+        NSLog(@"%d",[Arr_events count]);
+        
+        if ([Arr_events count] != 0) {
+            
+            [[DBFunctionality4Delete sharedInstance] deleteRealAle:[[json valueForKey:@"Details"] valueForKey:@"Non Active Ales"]];
+            
+            for (int i = 0; i < [Arr_events count]; i++) {
+                
+                //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
+                NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
+                //NSLog(@"%@",Str_Event);
+                NSString *EventTypeID;
+                
+                if ([Str_Event isEqualToString:@"RegularEvent"])
+                    EventTypeID = @"1";
+                else if([Str_Event isEqualToString:@"OneOffEvent"])
+                    EventTypeID = @"2";
+                else if([Str_Event isEqualToString:@"ThemeNight"])
+                    EventTypeID = @"3";
+                
+                NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
+                //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
+                
+                for (int j = 0; j < [Arr_EventDetails count]; j++) {
+                    
+                    int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
+                    
+                    
+                    NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                    //NSLog(@"%d",[Arr_PubInfo count]);
+                    
+                    for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                        
+                        
+                        int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                        
+                        [[DBFunctionality4Delete sharedInstance] deleteRealAle:pubid andEventID:EventId];
+                        
+                        
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    deletedDataCall = NO;
+    [self performSelector:@selector(myThreadMainMethod:) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+    
+    [self performSelector:@selector(updateDB) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+    [self performSelector:@selector(doneLoadingTableViewData)];  
+}
+
+
+-(void) updateDB
+{
+    detailsArray = [[SaveAleDetailInfo GetBeerInfo :Realale_ID radius:searchRadius beer_Name:str] retain]; 
+}
+-(void)afterFailourConnection:(id)msg
+{
+    NSLog(@"MESSAGE  %@",msg);
+    //[self callingNonSubPubs:nonSubValue];
+    
+    //[self performSelector:@selector(dismissHUD:)];
+    [self performSelector:@selector(doneLoadingTableViewData)];	
+    UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    alert.tag = 10;
+    [alert  show];
+    [alert  release];
+    
+}
+
+-(void) deletedDataCalling:(int)_callerNumber
+{
+    deletedDataCall = YES;
+    if (_callerNumber == 4) {
+        
+        if([InternetValidation  checkNetworkStatus])
+        {
+            deletedEventString = @"RealAleDeleted";
+            ServerConnection *conn1 = [[ServerConnection alloc] init];
+            [conn1 setServerDelegate:self];
+            [conn1 deleteRealAleData:[[DBFunctionality sharedInstance] GetlastupdateddatefromPubDetails]];
+            [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
+            [conn1 release];
+
+        }
+        else{
+            NSLog(@"CONNECTION ERROR");
+        }
+        
+        
+    }
+}
+-(void) myThreadMainMethod:(id) sender
+{
+    [[DBFunctionality4Update sharedInstance] UpdatePubDistance];
+    
+}
+
+
 
 -(IBAction)ClickBack:(id)sender{
       [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateNormal];
@@ -261,8 +520,6 @@ AppDelegate *app;
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     NSLog(@"textFieldDidBeginEditing  %@",textField.text);
-    textField.layer.borderColor = [UIColor orangeColor].CGColor;
-
     
 }
 
@@ -270,8 +527,6 @@ AppDelegate *app;
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"textFieldDidEndEditing  %@",textField.text);
-    textField.layer.borderColor = [UIColor clearColor].CGColor;
-
     //[self getBreweryNames];
     [textField resignFirstResponder];
     //text_field.text = @"";

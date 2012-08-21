@@ -15,6 +15,12 @@
 #import "TwitterViewController.h"
 #import "LinkedINViewController.h"
 #import "ASIHTTPRequest.h"
+#import "InternetValidation.h"
+#import "DBFunctionality.h"
+#import "JSON.h"
+#import "DBFunctionality4Update.h"
+#import "DBFunctionality4Delete.h"
+
 
 @implementation SportDetail
 @synthesize vw_header;
@@ -67,11 +73,11 @@ UIInterfaceOrientation orientation;
 #pragma mark - View lifecycle
 
 /*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView
+{
+}
+*/
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -79,16 +85,16 @@ UIInterfaceOrientation orientation;
 {
     [super viewDidLoad];
     self.eventTextLbl.text=sport_name;
-    
+
     
     toolBar = [[Toolbar alloc]init];
-    // toolBar.layer.borderWidth = 1.0f;
+   // toolBar.layer.borderWidth = 1.0f;
     [self.view addSubview:toolBar];
     
     
-    
+   
     array=[[NSMutableArray alloc]init];
-    
+      
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyyMMdd"];
     
@@ -98,14 +104,14 @@ UIInterfaceOrientation orientation;
     NSLog(@"%@",dateString);
     
     array = [[SaveSportDetailInfo GetSport_EventInfo:sportID withRadius:searchRadius currentDate:dateString]retain];
-    
+   
     
     arr=[[NSMutableArray alloc]init];
+   
+       
     
     
-    
-    
-    // [self CreateView];
+   // [self CreateView];
     
     //-----------------------------------mb----------------------------//
     if ([array count]==0) {
@@ -133,11 +139,11 @@ UIInterfaceOrientation orientation;
         }
     }
     
-    
+
     
     
     //----------------------------------------------------------------//
-    
+
 }
 
 #pragma  Mark-
@@ -163,13 +169,13 @@ UIInterfaceOrientation orientation;
     [backButton addTarget:self action:@selector(ClickBack:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
     [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateHighlighted];
-    
+
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:10];
     
     vw_header = [[UIView alloc]init];
     vw_header.layer.cornerRadius=5.0;
-    //vw.backgroundColor = [UIColor colorWithRed:96/255 green:94/255 blue:93/255 alpha:1];
+     //vw.backgroundColor = [UIColor colorWithRed:96/255 green:94/255 blue:93/255 alpha:1];
     vw_header.backgroundColor = [UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];//[UIColor grayColor];
     
     
@@ -177,7 +183,7 @@ UIInterfaceOrientation orientation;
     frstlbl.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
     ////////////////////////////JHUMA/////////////////////////////////////////////////////
     
-    
+   
     vw1 = [[[UIView alloc]init]autorelease];
     vw2 = [[[UIView alloc]init]autorelease];
     vw3 = [[[UIView alloc]init]autorelease];
@@ -243,10 +249,7 @@ UIInterfaceOrientation orientation;
     [venu_btn setTitle:@"More" forState:UIControlStateNormal];
     [venu_btn addTarget:self action:@selector(More_btnClick:) forControlEvents:UIControlEventTouchUpInside];
     venu_btn.backgroundColor=[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
-    
-    
-    
-    
+   
     
     [self setViewFrame];
     [self.view addSubview:vw_header];
@@ -264,8 +267,16 @@ UIInterfaceOrientation orientation;
     [self.view addSubview:backButton];
     [self.view addSubview:Title_lbl];
     [self.view addSubview:venu_btn];
-    [venu_btn release];
     
+    if (refreshHeaderView == nil) {
+		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - table_list.bounds.size.height, 320.0f, table_list.bounds.size.height)];
+		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+		[table_list addSubview:refreshHeaderView];
+		[refreshHeaderView release];
+	}
+
+    
+    [venu_btn release];
     [frstlbl release];
     [secndlbl release];
     [thrdlbl release];
@@ -278,79 +289,54 @@ UIInterfaceOrientation orientation;
 /////////////////////////////////////////////////////////////////////////////
 
 -(IBAction)ClickBack:(id)sender{
-    [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateNormal];
+     [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateNormal];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 ////////////////////////////JHUMA///////////////////////////////////
 
 -(IBAction)More_btnClick:(id)sender{
-    
-    
-    /*int r=[array count]%5;
-    if (r==0) {
-        r = [array count]/5;
-    }
+   
+  
+    int r=[array count]%5;
     int i=[array count]-r;
     
     k=k+5;
     if(k<=i){
         [arr removeAllObjects];
-        
-        for (int j =0; j<k; j++) {
-            [arr addObject:[array objectAtIndex:j]];
-        }
-        [table_list reloadData];
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"Successfully more Sport Event Details has been added" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        
-    }
-    else if(r!=0)
-    {
-        [arr removeAllObjects];
-        for (int j =0; j<[array count]; j++) {
-            [arr addObject:[array objectAtIndex:j]];
-        }
-        [table_list reloadData];
-        
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"Successfully more Sport Event Details has been added" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        
-        venu_btn.hidden=YES;
-        
-    }
-    else
-    {
-        venu_btn.hidden=YES;
-    }*/
     
-    if ([array count] > [arr count]) {
-        
-        //[arr removeAllObjects];
-        int count = [arr count];
-        
-        for (int j =0; j<5; j++) {
-            NSLog(@"%d",j);
-            
-            [arr addObject:[array objectAtIndex:count+j]];
-            if ([array count] ==  [arr count]) {
-                break;
-            }
-            
-        }
+    for (int j =0; j<k; j++) {
+        [arr addObject:[array objectAtIndex:j]];
+     }
         [table_list reloadData];
         
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"Successfully more Sport Event Details has been added" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
 
+   }
+    else if(r!=0)
+    {
+        [arr removeAllObjects];
+        for (int j =0; j<[array count]; j++) {
+            [arr addObject:[array objectAtIndex:j]];
+        }
+         [table_list reloadData];
+        
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"Successfully more Sport Event Details has been added" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+
+        venu_btn.hidden=YES;
+
+    }
+    else
+    {
+         venu_btn.hidden=YES;
     }
     
     
-    
+  
     
 }
 
@@ -391,13 +377,13 @@ UIInterfaceOrientation orientation;
                 Title_lbl.frame=CGRectMake(60, 90, 230, 30);
                 
                 table_list.frame = CGRectMake(8.5, 164, 303, 241);
-                
+               
                 venu_btn.frame=CGRectMake(120, 385, 80, 20);
                 
                 if (app.ismore==YES) {
                     //toolBar.frame = CGRectMake(-320, 387, 640, 48);
-                    toolBar.frame = CGRectMake(8.5, 421, 303, 53);
-                    
+                   toolBar.frame = CGRectMake(8.5, 421, 303, 53);
+                   
                 }
                 else{
                     //toolBar.frame = CGRectMake(0, 387, 640, 48);
@@ -407,49 +393,49 @@ UIInterfaceOrientation orientation;
                 
                 
             }
-            if (self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown) {
-                
-                vw1.frame=CGRectMake(94, 0, 1, 45);
-                vw2.frame=CGRectMake(141, 0, 1, 45);
-                vw3.frame=CGRectMake(178, 0, 1, 45);
-                vw4.frame=CGRectMake(242, 0, 1, 45);
-                
-                vw_header.frame = CGRectMake(8.5, 124, 303, 45);
-                frstlbl.frame = CGRectMake(10, 2, 75, 30);
-                secndlbl.frame = CGRectMake(99, 2, 39, 30);
-                thrdlbl.frame = CGRectMake(145, 2, 28, 30);
-                fourthlbl.frame = CGRectMake(183, 2, 54, 30);
-                fifthlbl.frame = CGRectMake(246, 2, 52, 30);
-                
-                
-                
+           if (self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown) {
+               
+               vw1.frame=CGRectMake(94, 0, 1, 45);
+               vw2.frame=CGRectMake(141, 0, 1, 45);
+               vw3.frame=CGRectMake(178, 0, 1, 45);
+               vw4.frame=CGRectMake(242, 0, 1, 45);
+               
+               vw_header.frame = CGRectMake(8.5, 124, 303, 45);
+               frstlbl.frame = CGRectMake(10, 2, 75, 30);
+               secndlbl.frame = CGRectMake(99, 2, 39, 30);
+               thrdlbl.frame = CGRectMake(145, 2, 28, 30);
+               fourthlbl.frame = CGRectMake(183, 2, 54, 30);
+               fifthlbl.frame = CGRectMake(246, 2, 52, 30);
+               
+              
+                                
                 backButton.frame = CGRectMake(8, 90, 50, 25);
                 Title_lbl.frame=CGRectMake(60, 90, 230, 30);
-                table_list.frame = CGRectMake(8.5, 164, 303, 241);
+                 table_list.frame = CGRectMake(8.5, 164, 303, 241);
                 
-                venu_btn.frame=CGRectMake(120, 385, 80, 20);
-                
-                
-                if (app.ismore==YES) {
-                    //toolBar.frame = CGRectMake(-320, 387, 640, 48);
-                    toolBar.frame = CGRectMake(8.5, 421, 303, 53);
-                    
-                }
-                else{
-                    //toolBar.frame = CGRectMake(0, 387, 640, 48);
-                    toolBar.frame = CGRectMake(8.5, 421, 303, 53);
-                }
+               venu_btn.frame=CGRectMake(120, 385, 80, 20);
                 
                 
+               if (app.ismore==YES) {
+                   //toolBar.frame = CGRectMake(-320, 387, 640, 48);
+                   toolBar.frame = CGRectMake(8.5, 421, 303, 53);
+                   
+               }
+               else{
+                   //toolBar.frame = CGRectMake(0, 387, 640, 48);
+                   toolBar.frame = CGRectMake(8.5, 421, 303, 53);
+               }
+               
                 
+
                 
             }
             
-        }
+                   }
         
         else{
             if (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft) {
-                
+               
                 vw1.frame=CGRectMake(145, 0, 1, 45);
                 vw2.frame=CGRectMake(217, 0, 1, 45);
                 vw3.frame=CGRectMake(274, 0, 1, 45);
@@ -465,9 +451,9 @@ UIInterfaceOrientation orientation;
                 fourthlbl.frame = CGRectMake(270, 0, 96, 40);
                 
                 fifthlbl.frame = CGRectMake(367, 0, 93, 40);
-                
+               
                 Title_lbl.frame=CGRectMake(125, 80, 230, 30);
-                
+               
                 vw_header.frame = CGRectMake(10, 117, 460, 42);
                 table_list.scrollEnabled = YES;
                 
@@ -479,16 +465,16 @@ UIInterfaceOrientation orientation;
                 }
                 
                 
-                
-                
+
+
             }
             if (self.interfaceOrientation==UIInterfaceOrientationLandscapeRight) {
-                
+               
                 vw1.frame=CGRectMake(145, 0, 1, 45);
                 vw2.frame=CGRectMake(217, 0, 1, 45);
                 vw3.frame=CGRectMake(274, 0, 1, 45);
                 vw4.frame=CGRectMake(366, 0, 1, 45);
-                table_list.frame = CGRectMake(10, 152, 460, 105);
+                 table_list.frame = CGRectMake(10, 152, 460, 105);
                 venu_btn.frame=CGRectMake(190, 229, 100, 20);
                 backButton.frame = CGRectMake(10, 85, 50, 25);
                 frstlbl.frame = CGRectMake(0, 0, 154, 40);
@@ -499,26 +485,26 @@ UIInterfaceOrientation orientation;
                 fourthlbl.frame = CGRectMake(270, 0, 96, 40);
                 
                 fifthlbl.frame = CGRectMake(369, 0, 93, 40);
-                
+               
                 Title_lbl.frame=CGRectMake(125, 80, 230, 30);
                 
                 vw_header.frame = CGRectMake(10, 117, 460, 42);
                 table_list.scrollEnabled = YES;
-                
+               
                 if (app.ismore==YES) {
                     toolBar.frame = CGRectMake(8.5, 261, 463, 53);
                 }
                 else{
                     toolBar.frame = CGRectMake(8.5, 261, 463, 53);
                 }
+
                 
                 
-                
-                
-                
+
+
             }
             
-            
+                   
         }
     }
 }
@@ -530,16 +516,347 @@ UIInterfaceOrientation orientation;
     [super viewWillAppear:animated];
     
     venu_btn.hidden=YES;
-    // app.ismore=NO;
+   // app.ismore=NO;
     app=(AppDelegate*)[[UIApplication sharedApplication]delegate ];
-    [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
+     [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
     self.navigationController.navigationBarHidden=YES;
     //[navBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[Constant GetImageName:@"TopBar"]]]];
     [self SetCustomNavBarFrame];
     [self setViewFrame];
     
-    [self AddNotification];
+      [self AddNotification];
 }
+
+#pragma mark
+#pragma mark PullTableViewRefresh Delegates
+
+
+- (void)reloadTableViewDataSource{
+	
+    [self performSelector:@selector(callingServer)];
+}
+
+
+
+- (void)doneLoadingTableViewData{
+    
+  	[self dataSourceDidFinishLoadingNewData];
+    
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	if (scrollView.isDragging) {
+		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshNormal];
+		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+			[refreshHeaderView setState:EGOOPullRefreshPulling];
+		}
+	}
+    
+    
+}
+
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
+		_reloading = YES;
+		[self performSelector:@selector(reloadTableViewDataSource) withObject:nil afterDelay:0.2];
+		[refreshHeaderView setState:EGOOPullRefreshLoading];
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.2];
+		table_list.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+		[UIView commitAnimations];
+	}
+}
+
+
+- (void)dataSourceDidFinishLoadingNewData{
+	
+    //[self performSelector:@selector(dismissHUD:)];
+	_reloading = NO;
+	[table_list reloadData];
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:.3];
+	[table_list setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+	[UIView commitAnimations];
+	
+	[refreshHeaderView setState:EGOOPullRefreshNormal];
+	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
+}
+-(void) callingServer
+{    
+    if([InternetValidation  checkNetworkStatus])
+    {
+        
+        //str_RefName =;
+        ServerConnection *conn1 = [[ServerConnection alloc] init];
+        [conn1 setServerDelegate:self];
+        
+        [conn1 getSportsData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
+        
+        [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
+        [conn1 release];
+    }
+    else
+    {
+        
+        UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:@"Internet Connection is Unavailable." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        alert.tag = 30;
+        [alert  show];
+        [alert  release];
+    }
+}
+
+-(void)afterSuccessfulConnection:(NSString*)data_Response
+{
+    if (!deletedDataCall) {
+        
+            NSDictionary *json = [data_Response JSONValue];
+            
+            
+            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
+            NSLog(@"%d",[Arr_events count]);
+            
+            if ([Arr_events count] != 0) {
+                
+                for (int i = 0; i < [Arr_events count]; i++) {
+                    
+                    
+                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
+                    NSString *EventTypeID;
+                    
+                    if ([Str_Event isEqualToString:@"RegularEvent"])
+                        EventTypeID = @"1";
+                    else if([Str_Event isEqualToString:@"OneOffEvent"])
+                        EventTypeID = @"2";
+                    else if([Str_Event isEqualToString:@"ThemeNight"])
+                        EventTypeID = @"3";
+                    
+                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
+                    
+                    
+                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
+                        
+                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
+                        NSString *Str_EventName = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Name"];
+                        
+                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                        //NSLog(@"%d",[Arr_PubInfo count]);
+                        
+                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                            
+                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                            
+                            
+                            
+                            [[DBFunctionality sharedInstance] InsertIntoEventDetailsWithEventID:EventId Name:Str_EventName EventTypeID:EventTypeID PubID:pubid PubDistance:0.0 creationdate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"createDate"] eventDay:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDay"] expiryDate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"expiryDate"]];//_distance/1000
+                            
+                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:pubid withName:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"]  longitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"venuePhoto"]];//_distance/1000
+                            
+                        }
+                    }
+                }
+            }
+            
+            [Arr_events release];
+            
+            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
+            [self deletedDataCalling:0];
+            [self deletedDataCalling:2];
+            
+       
+        
+            NSDictionary *json1 = [data_Response JSONValue];
+            
+            
+            NSMutableArray *Arr_events1 = [[[json1 valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
+            
+            if ([Arr_events1 count] != 0) {
+                
+                for (int i = 0; i < [Arr_events1 count]; i++) {
+                    
+                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
+                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
+                    //NSLog(@"%@",Str_Event);
+                    NSString *EventTypeID;
+                    
+                    if ([Str_Event isEqualToString:@"RegularEvent"])
+                        EventTypeID = @"1";
+                    else if([Str_Event isEqualToString:@"OneOffEvent"])
+                        EventTypeID = @"2";
+                    else if([Str_Event isEqualToString:@"ThemeNight"])
+                        EventTypeID = @"3";
+                    
+                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
+                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
+                    
+                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
+                        
+                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
+                        NSString *Str_EventName = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Name"];
+                        // NSLog(@"%d",EventId);
+                        //NSLog(@"%@",Str_EventName);
+                        
+                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                        //NSLog(@"%d",[Arr_PubInfo count]);
+                        
+                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                            
+                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                            
+                            
+                            
+                            if ([[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"] != nil || [[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] != nil){ 
+                                
+                            }
+                            
+                            NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+                            [dateFormat setDateFormat:@"yyyy-MM-dd"];
+                            //[dateFormat setLocale:[NSLocale currentLocale]];
+                            NSDate *tempDate = [dateFormat dateFromString:[NSString stringWithFormat:@"%@",[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"]]];
+                            
+                            NSDateFormatter *dateFormat2 = [[[NSDateFormatter alloc] init] autorelease];
+                            [dateFormat2 setDateFormat:@"EEE"];
+                            
+                            NSString *dateString1 = [[dateFormat2 stringFromDate:tempDate] uppercaseString]; 
+                            
+                            //NSLog(@"%@",dateString);
+                            
+                            [[DBFunctionality sharedInstance] InsertIntoEventDetailsWithEventID:EventId Name:Str_EventName EventTypeID:EventTypeID PubID:pubid PubDistance:0.0 creationdate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"] eventDay:dateString1 expiryDate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"]];//_distance/1000
+                            
+                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:pubid withName:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"]  longitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"venuePhoto"]];//_distance/1000
+                            
+                        }
+                    }
+                }
+            }
+            [Arr_events release];
+            
+            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
+            [self deletedDataCalling:3];
+            
+            
+        }
+    
+    
+else
+{
+    NSDictionary *json = [data_Response JSONValue];
+    
+    
+    NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
+    NSLog(@"%d",[Arr_events count]);
+    
+    if ([Arr_events count] != 0) {
+        
+        NSMutableArray *sportsIDArray = [[NSMutableArray alloc] init];
+        
+        for (int i = 0; i < [Arr_events count]; i++) {
+            
+            //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
+            NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
+            //NSLog(@"%@",Str_Event);
+            NSString *EventTypeID;
+            
+            if ([Str_Event isEqualToString:@"RegularEvent"])
+                EventTypeID = @"1";
+            else if([Str_Event isEqualToString:@"OneOffEvent"])
+                EventTypeID = @"2";
+            else if([Str_Event isEqualToString:@"ThemeNight"])
+                EventTypeID = @"3";
+            
+            NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
+            
+            
+            for (int j = 0; j < [Arr_EventDetails count]; j++) {
+                
+                int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"sportID"] intValue];
+                
+                NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                //NSLog(@"%d",[Arr_PubInfo count]);
+                
+                for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                    
+                    
+                    int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                    
+                    [[DBFunctionality4Delete sharedInstance] deleteSports:pubid andEventID:EventId];
+                    
+                    [sportsIDArray addObject:[NSString stringWithFormat:@"%d",EventId]];
+                }
+                //[Arr_PubInfo release];
+            }
+            //[Arr_EventDetails release];
+        }
+        
+        [[DBFunctionality4Delete sharedInstance] deleteSports:sportsIDArray];
+    }
+    
+}
+deletedDataCall = NO;
+[self performSelector:@selector(updateDB) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+[self performSelector:@selector(doneLoadingTableViewData)];
+[NSThread detachNewThreadSelector:@selector(myThreadMainMethod:) toTarget:self withObject:nil];
+}
+
+
+-(void) updateDB
+{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyyMMdd"];
+    
+    NSDate *now = [[NSDate alloc] init];
+    
+    NSString *dateString = [format stringFromDate:now];
+    NSLog(@"%@",dateString);
+    [array removeAllObjects];
+    array = [[SaveSportDetailInfo GetSport_EventInfo:sportID withRadius:searchRadius currentDate:dateString]retain];
+}
+-(void)afterFailourConnection:(id)msg
+{
+    NSLog(@"MESSAGE  %@",msg);
+    //[self callingNonSubPubs:nonSubValue];
+    
+    //[self performSelector:@selector(dismissHUD:)];
+    [self performSelector:@selector(doneLoadingTableViewData)];	
+    UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    alert.tag = 10;
+    [alert  show];
+    [alert  release];
+    
+}
+
+-(void) deletedDataCalling:(int)_callerNumber
+{
+    deletedDataCall = YES;
+    if (_callerNumber == 3) {
+        
+        if([InternetValidation  checkNetworkStatus])
+        {
+            deletedEventString = @"SportsDeleted";
+            ServerConnection *conn1 = [[ServerConnection alloc] init];
+            [conn1 setServerDelegate:self];
+            [conn1 deleteSportsData:[[DBFunctionality sharedInstance] GetlastupdatedDateandTimefromPubDetails]];
+            [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
+            [conn1 release];
+        }
+        else{
+            NSLog(@"CONNECTION ERROR");
+        }
+        
+        
+    }
+}
+-(void) myThreadMainMethod:(id) sender
+{
+    [[DBFunctionality4Update sharedInstance] UpdatePubDistance];
+    
+}
+
 
 -(void)AddNotification
 {
@@ -571,7 +888,7 @@ UIInterfaceOrientation orientation;
         tempurl = response;
     }
     
-    
+
     
     obj.textString=[NSString stringWithFormat:@"Pubs and Bars showing %@ %@",str_title,tempurl];
     
@@ -631,7 +948,7 @@ UIInterfaceOrientation orientation;
     
     fb_str=[NSString stringWithFormat:@"Pubs and Bars showing %@ %@",str_title,tempurl];
     
-    [mailController setMessageBody:[NSString stringWithFormat:@"%@",fb_str] isHTML:NO];
+     [mailController setMessageBody:[NSString stringWithFormat:@"%@",fb_str] isHTML:NO];
     //[mailController setToRecipients:[NSArray arrayWithObjects:EmailStr, nil]];
     mailController.mailComposeDelegate = self;
     [[[[mailController viewControllers] lastObject] navigationItem] setTitle:@"Pub & bar Network"];
@@ -663,7 +980,7 @@ UIInterfaceOrientation orientation;
     
     obj.shareText=[NSString stringWithFormat:@"Pubs and Bars showing %@ %@",str_title,tempurl];
     
-    
+      
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
     [self presentModalViewController:nav animated:YES];
     [obj release];
@@ -679,7 +996,7 @@ UIInterfaceOrientation orientation;
 
 - (void)ShareInFacebook:(NSNotification *)notification {
     NSLog(@"%d",[sportID intValue ]);
-    
+   
     
     NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/%@-pubs-bars-on-tv_%d.html",str_title,[sportID intValue]];
     
@@ -702,9 +1019,9 @@ UIInterfaceOrientation orientation;
 -(void) wallPosting
 {
     
-    
+  
     NSLog(@"%d",[sportID intValue ]);
-    NSString *fb_str=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/cricket-pubs-bars-on-tv_%d.html",[sportID intValue]];
+        NSString *fb_str=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/cricket-pubs-bars-on-tv_%d.html",[sportID intValue]];
     
     
     
@@ -712,9 +1029,9 @@ UIInterfaceOrientation orientation;
     [NSMutableDictionary dictionaryWithObjectsAndKeys:
      @"Greetings", @"name",
      @"Check it out!", @"caption",fb_str
-     // @"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://tinyurl.com/8x5jh6v  This will do the job of informing the recipient of the message about the app so they download it."
+       // @"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://tinyurl.com/8x5jh6v  This will do the job of informing the recipient of the message about the app so they download it."
      ,@"message",
-     // @"Want to share through Greetings", @"description",
+    // @"Want to share through Greetings", @"description",
      @"https://m.facebook.com/apps/Greetings/", @"link",
      //@"http://fbrell.com/f8.jpg", @"picture",
      nil];  
@@ -815,14 +1132,14 @@ UIInterfaceOrientation orientation;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSLog(@"ARRAY   %d   %d",[arr count],[array count]);
+	NSLog(@"ARRAY   %d",[arr count]);
     if ([array count] == [arr count])
         return [arr count];
     else    
         return [arr count] + 1;
-    
-    
-    //return [arr count];
+
+   
+   //return [arr count];
     
 }
 
@@ -874,105 +1191,105 @@ UIInterfaceOrientation orientation;
         if (cell == nil) {
             
             cell =	[[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:postCellId] autorelease];
-            
-            
-            
-            //	UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            //    
-            //	if (cell == nil)
-            //	{
-            //        
-            //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            /*   UIView *vw6 = [[UIView alloc]initWithFrame:CGRectMake(0, 102, 1, 50)];
-             vw6.backgroundColor= [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
-             UIView * vw7 = [[UIView alloc]init];
-             vw7.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
-             
-             UIView *vw8 = [[UIView alloc]init];
-             vw8.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
-             
-             UIView *vw9 = [[UIView alloc]init];
-             vw9.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
-             // vw10 = [[UIView alloc]init];
-             //vw10.backgroundColor= [UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];*/
-            
-            
-            
-            topLabel = [[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 102, 50)]autorelease];
-            
-            //[cell.contentView addSubview:vw6];
-            
-            topLabel.tag = TOP_LABEL_TAG;
-            topLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
-            topLabel.backgroundColor = [UIColor clearColor];
-            topLabel.textColor = [UIColor whiteColor];
-            topLabel.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            topLabel.font = [UIFont boldSystemFontOfSize:9];
-            topLabel.layer.borderWidth= 1.0;
-            topLabel.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
-            topLabel.textAlignment = UITextAlignmentCenter;
-            topLabel.numberOfLines=3;
-            topLabel.lineBreakMode = UILineBreakModeWordWrap;
-            [cell.contentView addSubview:topLabel];
-            
-            
-            middlelbl =[[[UILabel alloc]initWithFrame:CGRectMake(101, 0, 51, 50)]autorelease];
-            middlelbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
-            middlelbl.tag = MIDDLE_LABEL_TAG;
-            middlelbl.backgroundColor = [UIColor clearColor];
-            middlelbl.textColor = [UIColor whiteColor];
-            middlelbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            middlelbl.font = [UIFont boldSystemFontOfSize:9];
-            middlelbl.numberOfLines=2;
-            middlelbl.layer.borderWidth= 1.0;
-            middlelbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
-            middlelbl.textAlignment = UITextAlignmentCenter;
-            [cell.contentView addSubview:middlelbl];
-            
-            
-            bottomlbl =[[[UILabel alloc]initWithFrame:CGRectMake(151, 0, 41, 50)]autorelease];
-            bottomlbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
-            bottomlbl.tag = BOTTOM_LABEL_TAG;
-            bottomlbl.backgroundColor = [UIColor clearColor];
-            bottomlbl.textColor = [UIColor whiteColor];
-            bottomlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            bottomlbl.font = [UIFont boldSystemFontOfSize:9];
-            bottomlbl.layer.borderWidth= 1.0;
-            bottomlbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
-            bottomlbl.textAlignment = UITextAlignmentCenter;
-            [cell.contentView addSubview:bottomlbl];
-            
-            
-            endlbl =[[[UILabel alloc]initWithFrame:CGRectMake(191, 0, 65, 49.5)]autorelease];
-            endlbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
-            endlbl.tag = END_LABEL_TAG;
-            endlbl.backgroundColor = [UIColor clearColor];
-            endlbl.textColor = [UIColor whiteColor];
-            endlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            endlbl.font = [UIFont boldSystemFontOfSize:9];
-            endlbl.layer.borderWidth= 0.5;
-            endlbl.numberOfLines=3;
-            endlbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
-            endlbl.textAlignment = UITextAlignmentCenter;
-            [cell.contentView addSubview:endlbl];
-            
-            extremelbl =[[[UILabel alloc]initWithFrame:CGRectMake(255, 0, 65, 49.5)]autorelease];
-            extremelbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
-            extremelbl.tag = EXTREME_LABEL_TAG;
-            extremelbl.backgroundColor = [UIColor clearColor];
-            extremelbl.textColor = [UIColor whiteColor];
-            extremelbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            extremelbl.font = [UIFont boldSystemFontOfSize:9];
-            extremelbl.numberOfLines=2;
-            extremelbl.layer.borderWidth= 0.5;
-            extremelbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
-            extremelbl.textAlignment = UITextAlignmentCenter;
-            [cell.contentView addSubview:extremelbl];
-            
-        }
+
+    
+    
+//	UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//	if (cell == nil)
+//	{
+//        
+//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+     /*   UIView *vw6 = [[UIView alloc]initWithFrame:CGRectMake(0, 102, 1, 50)];
+        vw6.backgroundColor= [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
+        UIView * vw7 = [[UIView alloc]init];
+        vw7.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
+        
+        UIView *vw8 = [[UIView alloc]init];
+        vw8.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
+        
+        UIView *vw9 = [[UIView alloc]init];
+        vw9.backgroundColor=[UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1];
+       // vw10 = [[UIView alloc]init];
+        //vw10.backgroundColor= [UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];*/
+
+        
+        
+        topLabel = [[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 102, 50)]autorelease];
+        
+        //[cell.contentView addSubview:vw6];
+		
+		topLabel.tag = TOP_LABEL_TAG;
+        topLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
+		topLabel.backgroundColor = [UIColor clearColor];
+		topLabel.textColor = [UIColor whiteColor];
+		topLabel.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
+		topLabel.font = [UIFont boldSystemFontOfSize:9];
+        topLabel.layer.borderWidth= 1.0;
+        topLabel.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
+        topLabel.textAlignment = UITextAlignmentCenter;
+        topLabel.numberOfLines=3;
+        topLabel.lineBreakMode = UILineBreakModeWordWrap;
+        [cell.contentView addSubview:topLabel];
+
+        
+        middlelbl =[[[UILabel alloc]initWithFrame:CGRectMake(101, 0, 51, 50)]autorelease];
+        middlelbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
+        middlelbl.tag = MIDDLE_LABEL_TAG;
+        middlelbl.backgroundColor = [UIColor clearColor];
+        middlelbl.textColor = [UIColor whiteColor];
+        middlelbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
+        middlelbl.font = [UIFont boldSystemFontOfSize:9];
+        middlelbl.numberOfLines=2;
+        middlelbl.layer.borderWidth= 1.0;
+        middlelbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
+        middlelbl.textAlignment = UITextAlignmentCenter;
+        [cell.contentView addSubview:middlelbl];
+
+        
+        bottomlbl =[[[UILabel alloc]initWithFrame:CGRectMake(151, 0, 41, 50)]autorelease];
+        bottomlbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
+        bottomlbl.tag = BOTTOM_LABEL_TAG;
+        bottomlbl.backgroundColor = [UIColor clearColor];
+        bottomlbl.textColor = [UIColor whiteColor];
+        bottomlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
+        bottomlbl.font = [UIFont boldSystemFontOfSize:9];
+        bottomlbl.layer.borderWidth= 1.0;
+        bottomlbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
+        bottomlbl.textAlignment = UITextAlignmentCenter;
+        [cell.contentView addSubview:bottomlbl];
+
+        
+        endlbl =[[[UILabel alloc]initWithFrame:CGRectMake(191, 0, 65, 49.5)]autorelease];
+        endlbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
+        endlbl.tag = END_LABEL_TAG;
+        endlbl.backgroundColor = [UIColor clearColor];
+        endlbl.textColor = [UIColor whiteColor];
+        endlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
+        endlbl.font = [UIFont boldSystemFontOfSize:9];
+        endlbl.layer.borderWidth= 0.5;
+        endlbl.numberOfLines=3;
+        endlbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
+        endlbl.textAlignment = UITextAlignmentCenter;
+        [cell.contentView addSubview:endlbl];
+
+        extremelbl =[[[UILabel alloc]initWithFrame:CGRectMake(255, 0, 65, 49.5)]autorelease];
+        extremelbl.autoresizingMask=UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth;// | UIViewAutoresizingFlexibleHeight; 
+        extremelbl.tag = EXTREME_LABEL_TAG;
+        extremelbl.backgroundColor = [UIColor clearColor];
+        extremelbl.textColor = [UIColor whiteColor];
+        extremelbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
+        extremelbl.font = [UIFont boldSystemFontOfSize:9];
+        extremelbl.numberOfLines=2;
+        extremelbl.layer.borderWidth= 0.5;
+        extremelbl.layer.borderColor = [UIColor colorWithRed:117.0/255.0 green:129.0/255.0 blue:144.0/255.0 alpha:1].CGColor;//[[UIColor grayColor]CGColor];
+        extremelbl.textAlignment = UITextAlignmentCenter;
+        [cell.contentView addSubview:extremelbl];
+
+     }
     }
     
-    if (cell != nil){
+   if (cell != nil){
         topLabel = (UILabel *)[cell.contentView viewWithTag:TOP_LABEL_TAG];
         middlelbl = (UILabel *)[cell.contentView viewWithTag:MIDDLE_LABEL_TAG];
         bottomlbl = (UILabel *)[cell.contentView viewWithTag:BOTTOM_LABEL_TAG];
@@ -981,39 +1298,39 @@ UIInterfaceOrientation orientation;
     }
     @try {
         topLabel.text = [[array objectAtIndex:indexPath.row]valueForKey:@"Sport_EventName" ];
+       
+      /*  NSString *str_date=[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date" ];
         
-        /*  NSString *str_date=[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date" ];
-         
-         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-         formatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
-         [formatter setDateFormat:@"dd/MM/yyyy"];
-         
-         NSDate *dateString = [formatter dateFromString:str_date];
-         // NSLog(@"%@",dateString);
-         
-         NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
+        [formatter setDateFormat:@"dd/MM/yyyy"];
+        
+        NSDate *dateString = [formatter dateFromString:str_date];
+       // NSLog(@"%@",dateString);
+        
+        NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
          NSString *dateString1 = [formatter1 stringFromDate:dateString];
-         
-         
-         middlelbl.text =[NSString stringWithFormat:@"%@",dateString1];*/
+        
+        
+        middlelbl.text =[NSString stringWithFormat:@"%@",dateString1];*/
         
         /*NSString *str_date;
-         
-         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-         [dateFormat setDateFormat:@"dd-MM-yyyy"];
-         
-         NSDate *tempDate = [dateFormat dateFromString:[NSString stringWithFormat:@"%@",[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date" ]]];
-         
-         NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-         [dateFormat2 setDateFormat:@"eeee dd MMMM"];
-         
-         str_date = [dateFormat2 stringFromDate:tempDate]; 
-         [dateFormat release];
-         [dateFormat2 release];
-         
-         NSLog(@"%@",str_date);
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd-MM-yyyy"];
+        
+        NSDate *tempDate = [dateFormat dateFromString:[NSString stringWithFormat:@"%@",[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date" ]]];
+        
+        NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+        [dateFormat2 setDateFormat:@"eeee dd MMMM"];
+        
+        str_date = [dateFormat2 stringFromDate:tempDate]; 
+        [dateFormat release];
+        [dateFormat2 release];
+        
+        NSLog(@"%@",str_date);
          NSLog(@"%@",[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date" ]);
-         middlelbl.text =str_date;*/
+        middlelbl.text =str_date;*/
         
         middlelbl.text = [[array objectAtIndex:indexPath.row]valueForKey:@"Sport_Date"];
         bottomlbl.text = [[array objectAtIndex:indexPath.row]valueForKey:@"Time" ];
@@ -1044,27 +1361,30 @@ UIInterfaceOrientation orientation;
 	
 	if (row == count) {
 		
-        
+		        
         [self performSelector:@selector(More_btnClick:)];
 		
 	}
     else{
-        
-        
-        PubList *obj = [[PubList alloc]initWithNibName:[Constant GetNibName:@"PubList"] bundle:[NSBundle mainBundle] withCategoryStr:sport_name];
-        obj.searchRadius = searchRadius;
-        obj.catID = [[array objectAtIndex:indexPath.row] valueForKey:@"Sport_ID"];
-        obj.sport_eventID = [[array objectAtIndex:indexPath.row] valueForKey:@"Sport_EventID"];
-        obj.Pubid=[[array objectAtIndex:indexPath.row] valueForKey:@"PubID"];
-        
-        ////////////////////////////JHUMA///////////////////////////////////
-        
-        obj.eventName=[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_EventName"];
-        
-        [self.navigationController pushViewController:obj animated:YES];
-        [obj release];
-    }
     
+    
+    
+    
+    
+    PubList *obj = [[PubList alloc]initWithNibName:[Constant GetNibName:@"PubList"] bundle:[NSBundle mainBundle] withCategoryStr:sport_name];
+    obj.searchRadius = searchRadius;
+    obj.catID = [[array objectAtIndex:indexPath.row] valueForKey:@"Sport_ID"];
+    obj.sport_eventID = [[array objectAtIndex:indexPath.row] valueForKey:@"Sport_EventID"];
+    obj.Pubid=[[array objectAtIndex:indexPath.row] valueForKey:@"PubID"];
+    
+    ////////////////////////////JHUMA///////////////////////////////////
+    
+    obj.eventName=[[array objectAtIndex:indexPath.row]valueForKey:@"Sport_EventName"];
+
+    [self.navigationController pushViewController:obj animated:YES];
+    [obj release];
+    }
+
     
 }
 - (void)viewDidUnload

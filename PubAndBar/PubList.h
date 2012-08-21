@@ -21,6 +21,8 @@
 #import "Facebook.h"
 #import "ServerConnection.h"
 
+@class EGORefreshTableHeaderView;
+
 
 @interface PubList : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
     
@@ -100,8 +102,15 @@
     
     NSString *eventTypeId;
 
+    NSString *str_RefName;
+    
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
 
 }
+@property(assign,getter=isReloading) BOOL reloading;
 @property(nonatomic,retain)NSString *eventTypeId;
 @property(nonatomic,retain)NSString *Day;
 @property(nonatomic,retain)NSMutableArray *array_EventName;
@@ -168,5 +177,7 @@
 
 -(IBAction)MorebtnClick:(id)sender;
 -(void)_callingMapview;
+-(void) deletedDataCalling:(int)_callerNumber;
+- (void)dataSourceDidFinishLoadingNewData;
 
 @end
