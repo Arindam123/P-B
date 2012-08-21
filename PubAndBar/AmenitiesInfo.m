@@ -16,7 +16,15 @@
     appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     
     NSMutableArray *arr = [[NSMutableArray alloc]init];
-    NSString *qury=[NSString stringWithFormat:@"SELECT  Ammenity_typeID,Facility_Name FROM Ammenity_Detail where Ammenity_ID=%d and PubDistance %@ group by Ammenity_typeID,Facility_Name",ID,rad];
+    NSString *qury;
+    if (rad==nil) {
+        qury=[NSString stringWithFormat:@"SELECT  Ammenity_typeID,Facility_Name FROM Ammenity_Detail where Ammenity_ID=%d group by Ammenity_typeID,Facility_Name",ID];
+    }
+    else
+    {
+        qury=[NSString stringWithFormat:@"SELECT  Ammenity_typeID,Facility_Name FROM Ammenity_Detail where pubid in (select distinct pubid from pubdetails) and Ammenity_ID=%d group by Ammenity_typeID,Facility_Name",ID];
+    }
+    
     
     ResultSet *rs = [appDelegate.PubandBar_DB executeQuery:qury];
     

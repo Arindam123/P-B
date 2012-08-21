@@ -12,7 +12,8 @@
 @interface SaveSportDetailInfo : NSObject{
 
 }
-+(NSMutableArray *)GetSport_EventInfo :(NSString *)ID withRadius:(NSString *) _radius;
++(NSMutableArray *)GetSport_EventInfo :(NSString *)ID withRadius:(NSString *) _radius currentDate:(NSString *)date;
 
-+(NSMutableArray *)GetSport_EventInfo_Details :(int)Pubid;
+//+(NSMutableArray *)GetSport_EventInfo_Details :(int)Pubid;
++(NSMutableArray *)GetSport_EventInfo_Details :(int)Pubid Sport_EventID:(int)SportEventID _id:(int )_ID ;
 @end

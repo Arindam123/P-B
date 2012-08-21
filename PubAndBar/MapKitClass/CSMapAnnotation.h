@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-@class PhoneNumberAppDelegate;
+@class AppDelegate;
 
 // types of annotations for which we will provide annotation views. 
 typedef enum {
@@ -26,7 +26,7 @@ typedef enum {
 	NSString*              _id;
 	NSURL*                 _url;
 	
-	PhoneNumberAppDelegate *appDel;
+	AppDelegate *appDel;
 	
 }
 

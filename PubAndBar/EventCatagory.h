@@ -17,11 +17,9 @@
 #import "Facebook.h"
 #import "AppDelegate.h"
 #import "Toolbar.h"
-#import "ServerConnection.h"
-#import "URLRequestString.h"
-#import "EGORefreshTableHeaderView.h"
 
-@interface EventCatagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
+
+@interface EventCatagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
     
      UITableView *table_eventcatagory;
     UILabel *lbl_heading;
@@ -39,17 +37,10 @@
     Toolbar *toolBar;
     NSString *strPagename;
     UIView *vw1;
-    UIButton *reccomonendVenueBtn;
-    AppDelegate *delegate ;
-    NSString *str_RefName;
-    
-    EGORefreshTableHeaderView *refreshHeaderView;
-	BOOL _reloading;
-    BOOL deletedDataCall;
-    NSString *deletedEventString;
+ UIButton *reccomonendVenueBtn;
+AppDelegate *delegate ;
 
 }
-@property(assign,getter=isReloading) BOOL reloading;
 @property(nonatomic,retain)UIButton *backButton;
 @property(nonatomic,retain)UITableView *table_eventcatagory;
 @property(nonatomic,retain)NSArray *eventArray;
@@ -72,6 +63,4 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
--(void)dataSourceDidFinishLoadingNewData;
--(void) DataCalling4deleted:(int)_callerNumber;
 @end

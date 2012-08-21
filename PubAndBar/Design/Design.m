@@ -19,7 +19,7 @@
 	textFieldNormal = [[UITextField alloc] initWithFrame:frame];
 	textFieldNormal.borderStyle = UITextBorderStyleRoundedRect;
 	textFieldNormal.textColor = [UIColor blackColor];
-	textFieldNormal.font = [UIFont systemFontOfSize:12.0];
+	textFieldNormal.font = [UIFont systemFontOfSize:13.5];
 	textFieldNormal.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
 	
 	textFieldNormal.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
@@ -40,7 +40,7 @@
 	lblTemp = [[UILabel alloc]initWithFrame:frame];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	lblTemp.textColor = textcolor;
-	lblTemp.font = [UIFont systemFontOfSize:12.0];
+	lblTemp.font = [UIFont systemFontOfSize:13.5];
 	lblTemp.tag = tag;
 	return lblTemp;
 	[lblTemp release];
@@ -52,7 +52,7 @@
 	txtViewTemp = [[UITextView alloc]initWithFrame:frame];
 	txtViewTemp.textColor = textcolor;//[UIColor whiteColor];
 	txtViewTemp.backgroundColor = [UIColor clearColor];
-	txtViewTemp.font = [UIFont systemFontOfSize:12.0];
+	txtViewTemp.font = [UIFont systemFontOfSize:13.5];
 	txtViewTemp.autocorrectionType = UITextAutocorrectionTypeNo;
 	txtViewTemp.keyboardType=UIKeyboardTypeDefault;
 	txtViewTemp.returnKeyType=UIReturnKeyDone;

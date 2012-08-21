@@ -18,13 +18,28 @@
     IBOutlet UIView *vw;
     IBOutlet UILabel *lbl_version;
     
+    IBOutlet UIButton *btn_search;
+    IBOutlet UIButton *btn_signup;
     
+    IBOutlet UIButton *btn_help;
 }
 @property(nonatomic,retain)IBOutlet UILabel *lbl_version;
 @property(nonatomic,retain)IBOutlet UIView *vw;
+@property (retain, nonatomic) IBOutlet UIButton *btn_search;
+@property (retain, nonatomic) IBOutlet UIButton *btn_signup;
+@property (retain, nonatomic) IBOutlet UIButton *btn_help;
+
+
+
+
+
 
 //////////////////////////////////////////////
 
 -(IBAction)ClicksetMyPreference:(id)sender;
 -(IBAction)ClickEnterWithoutPreference:(id)sender;
+-(IBAction)ClickSearch:(id)sender;
+-(IBAction)ClickSignUp:(id)sender;
+-(IBAction)ClickHelp:(id)sender;
+
 @end

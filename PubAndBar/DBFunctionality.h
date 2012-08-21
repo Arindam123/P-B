@@ -13,6 +13,22 @@
 
 + (DBFunctionality *)sharedInstance;
 
+
+//***************** Non-Subscribing Pubs *******************
+
+-(void)InsertValue_NonSubPub_Info:(int)pubID
+                   withName:(NSString *)pubName 
+                   distance:(double)_distance
+                   latitude:(NSString *)_latitude
+                  longitude:(NSString *)_longitude
+                   postCode:(NSString *)_postCode 
+                   district:(NSString *)_district 
+                       city:(NSString *)_city
+            lastUpdatedDate:(NSString *) _lastUpdatedDate
+                    phoneNo:(NSString *) _phoneNo;
+
+
+
 //***************** PubDetails *******************
 
 
@@ -24,7 +40,8 @@
                    postCode:(NSString *)_postCode 
                    district:(NSString *)_district 
                        city:(NSString *)_city
-            lastUpdatedDate:(NSString *) _lastUpdatedDate;
+            lastUpdatedDate:(NSString *) _lastUpdatedDate
+                   pubPhoto:(NSString *) _pubPhoto;
 
 -(void)InsertValue_Pub_details:(NSString *)_pubEmail
                      pubMobile:(NSString *)_pubMobile 
@@ -104,7 +121,14 @@
 
 //********************* Events *******************
 
--(void)InsertIntoEventDetailsWithEventID:(int)_ID Name:(NSString*)_Name EventTypeID:(NSString*)_EventTypeID PubID:(int)_PubID PubDistance:(double)_PubDistance creationdate:(NSString*)_date;
+-(void)InsertIntoEventDetailsWithEventID:(int)_ID 
+                                    Name:(NSString*)_Name 
+                             EventTypeID:(NSString*)_EventTypeID 
+                                   PubID:(int)_PubID 
+                             PubDistance:(double)_PubDistance 
+                            creationdate:(NSString*)_date 
+                                eventDay:(NSString*)_eventDay
+                              expiryDate:(NSString*)_expiryDate;
 
 -(void)InsertValue_Pub_PhotoWithPubID:(NSString*)_pubId 
                         GeneralImages:(NSString*)_GeneralImages 
@@ -166,5 +190,29 @@
                    Ale_ContactName:(NSString*)_Ale_ContactName 
                    Ale_PhoneNumber:(NSString*)_Ale_PhoneNumber 
                       Ale_District:(NSString*)_Ale_District;
+
+
+//Biswa
+-(NSString*)GetlastupdateddatefromPubDetails;
+-(NSString*)GetlastupdatedDateandTimefromPubDetails;
+-(void)UpdatelastUadeField_PubDetails;
+
+
+-(void)InsertValue_Pub_PhotoWithPubID:(NSString*)_pubId 
+                        GeneralImages:(NSString*)_GeneralImages 
+                       GeneralImageID:(NSString*)_GeneralImageID;
+
+-(void)InsertValue_Pub_PhotoWithPubID:(NSString*)_pubId 
+                   FunctionRoomImages:(NSString*)_FunctionRoomImages
+                  FunctionRoomImageID:(NSString*)_FunctionRoomImageID;
+
+-(void)InsertValue_Pub_PhotoWithPubID:(NSString*)_pubId 
+                      FoodDrinkImages:(NSString*)_FoodDrinkImages
+                     FoodDrinkImageID:(NSString*)_FoodDrinkImageID;
+
+
+-(void)InsertPubId_IntoPreference_Favourites:(int) pubId;
+-(void)InsertPubId_IntoPreference_RecentHistory:(int) pubId;
+-(void)InsertPubId_IntoPreference_RecentSearch:(int) pubId;
 
 @end

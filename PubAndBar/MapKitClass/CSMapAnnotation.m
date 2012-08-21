@@ -44,7 +44,7 @@
 		_annotationType == CSMapAnnotationTypeEnd)
 	{
 		
-		appDel = (PhoneNumberAppDelegate *)[[UIApplication sharedApplication] delegate]; 
+		appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate]; 
 		
 		
 		

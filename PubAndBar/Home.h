@@ -20,9 +20,13 @@
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "MBProgressHUD.h"
+#import "ServerConnection.h"
+#import "ASIHTTPRequest.h"
+
+@class EGORefreshTableHeaderView;
 
 
-@interface Home : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate>{
+@interface Home : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,MBProgressHUDDelegate,ServerConnectionDelegate>{
     
     UITableView *hometable;
     NSMutableArray *selectionArray;
@@ -41,6 +45,16 @@
     NSMutableArray *Arr_URL_Name;
     MBProgressHUD *_hud;
     NSMutableArray *Arr_CheckValue;
+    
+    NSTimer *timer;
+    NSDate *startDate;
+    NSString *timeString;
+    
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
+    
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
 
 }
 @property(nonatomic,retain)UITableView *hometable;
@@ -57,6 +71,9 @@
 @property (nonatomic, retain) NSString *str_RefName;
 @property (nonatomic, retain) NSMutableArray *Arr_CheckValue;
 
+@property(assign,getter=isReloading) BOOL reloading;
+
+
 
 -(void)CreateHomeView;
 -(void)setHomeViewFrame;
@@ -67,4 +84,8 @@
 -(void)JSONStartWithName:(NSString*)_RefName;
 -(void)ExcuteURLWithNameRef:(int)_RefNumber;
 -(BOOL)isValueCointainInDB:(NSString*)_str_Name;
+
+
+
+
 @end

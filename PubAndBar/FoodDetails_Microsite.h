@@ -10,7 +10,16 @@
 #import "ButtonAction.h"
 #import "Toolbar.h"
 
-@interface FoodDetails_Microsite : ButtonAction<UITableViewDelegate,UITableViewDataSource>
+#import "FacebookController.h"
+#import "MyPreferences.h"
+#import "OAuthLoginView.h"
+#import <MessageUI/MFMailComposeViewController.h>
+#import "Facebook.h"
+#import <MessageUI/MessageUI.h>
+
+
+
+@interface FoodDetails_Microsite : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>
 {
     UIButton *backButton;
     UITableView *table;
@@ -24,16 +33,37 @@
     NSString *category_Str;
     NSString *Pubid;
     Toolbar *toolBar;
-    
+    NSMutableDictionary *dic;
+     MBProgressHUD *_hud;
     BOOL IsInformation;
     BOOL IsServeTime;
     BOOL IsChefDesc;
     BOOL IsSpecialOffers;
     BOOL IsFood;
     
-
+    OAuthLoginView *oAuthObj;
+    Facebook *facebook;
+    AppDelegate *delegate ;
+    BOOL IsSelect;
+    int section_value;
+    UIButton *btn_Venu;
+    UIImageView *img_1stLbl;
+    NSMutableDictionary *header_DictionaryData;
+    NSMutableArray *OpenHourArray;
+    NSMutableArray *OpenDayArray;
+    NSMutableArray *bulletPointArray;
+    NSString *FoodID;
 
 }
+@property(nonatomic,retain)NSString *FoodID;
+@property(nonatomic,retain) NSMutableArray *bulletPointArray;
+@property(nonatomic,retain) NSMutableArray *OpenHourArray;
+@property(nonatomic,retain) NSMutableArray *OpenDayArray;
+@property(nonatomic,retain) NSMutableDictionary *header_DictionaryData;
+@property(nonatomic,retain)UIImageView *img_1stLbl;
+@property(nonatomic,retain)UIButton *btn_Venu;
+@property (retain) MBProgressHUD *hud;
+@property(nonatomic,retain) NSMutableDictionary *dic;
 @property(nonatomic,assign)BOOL IsInformation;
 @property(nonatomic,assign)BOOL IsServeTime;
 @property(nonatomic,assign)BOOL IsChefDesc;
@@ -52,8 +82,15 @@
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)UIButton *backButton;
 
+@property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
+
+
 -(void)setCatagoryViewFrame;
 -(void)CreateView;
 //-(void)PrepareArrayList:(int)Selection;
+
+-(void)AddNotification;
+-(void)displayEmailComposerSheet;
+-(void)wallPosting;
 
 @end

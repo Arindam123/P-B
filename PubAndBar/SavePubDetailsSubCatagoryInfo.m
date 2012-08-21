@@ -19,7 +19,7 @@
     
     NSMutableArray *arr = [[NSMutableArray alloc]init];
     ResultSet *rs;
-    rs = [appDelegate.PubandBar_DB executeQuery:[NSString stringWithFormat:@"select * from Food_Detail where PubID=%d",ID]];
+    rs = [appDelegate.PubandBar_DB executeQuery:[NSString stringWithFormat:@"select * from Food_Detail where PubID=%d and Food_Information not null group by PubID",ID]];
         
 
     

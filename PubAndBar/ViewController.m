@@ -9,11 +9,17 @@
 #import "ViewController.h"
 #import "AppDelegate.h"
 #import "MyPreferences.h"
+#import "SignIn.h"
+#import "Home.h"
+#import "ContactHelp.h"
 
 @implementation ViewController
 
 //////////////////JHUMA//////////////////////
 @synthesize vw;
+@synthesize btn_search;
+@synthesize btn_signup;
+@synthesize btn_help;
 @synthesize lbl_version;
 
 
@@ -49,6 +55,15 @@ AppDelegate *del;
 
 - (void)viewDidUnload
 {
+    [btn_search release];
+    btn_search = nil;
+    [self setBtn_search:nil];
+    [btn_signup release];
+    btn_signup = nil;
+    [self setBtn_signup:nil];
+    [btn_help release];
+    btn_help = nil;
+    [self setBtn_help:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -57,7 +72,8 @@ AppDelegate *del;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    //[self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.mainNavigationView.hidden=YES;
     self.navigationController.navigationBarHidden=YES;
 }
 
@@ -87,7 +103,30 @@ AppDelegate *del;
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     NSLog(@"Select !!!");
 }
+-(IBAction)ClickSignUp:(id)sender{
+    
+     SignIn *obj_SignIn=[[SignIn alloc]initWithNibName:[Constant GetNibName:@"SignIn"] bundle:[NSBundle mainBundle]];
+   //[self.presentModalViewController:obj_SignIn animated:YES];
+    
+    [self presentModalViewController:obj_SignIn animated:YES];
+    
+    //[obj_SignIn release];
+    
+    
+}
+-(IBAction)ClickSearch:(id)sender{
+    Home *obj_Home=[[Home alloc]initWithNibName:[Constant GetNibName:@"Home"] bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:obj_Home animated:YES];
 
+    
+}
+-(IBAction)ClickHelp:(id)sender{
+    
+    ContactHelp *obj_ContactHelp=[[ContactHelp alloc]initWithNibName:[Constant GetNibName:@"ContactHelp"] bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:obj_ContactHelp animated:YES];
+
+    
+}
 -(IBAction)ClicksetMyPreference:(id)sender{
    
     MyPreferences *obj_mypreferences=[[MyPreferences alloc]initWithNibName:[Constant GetNibName:@"MyPreferences"] bundle:[NSBundle mainBundle]];
@@ -104,4 +143,13 @@ AppDelegate *del;
     [obj release];
 }
 
+- (void)dealloc {
+    [btn_search release];
+   // [btn_search release];
+    //[btn_signup release];
+    [btn_signup release];
+    //[btn_help release];
+    [btn_help release];
+    [super dealloc];
+}
 @end

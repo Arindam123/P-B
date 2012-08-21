@@ -71,4 +71,16 @@
     
 }
 
++(NSString*)GetCurrentDate{
+    NSDate *dateTime = [NSDate date ];                          
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    [dateFormat setLocale:[NSLocale currentLocale]];
+    NSString *dateString = [dateFormat stringFromDate:dateTime];  
+    [dateFormat release];
+    NSLog(@"Date: %@:", dateString);    
+    return dateString;
+    
+}
+
 @end

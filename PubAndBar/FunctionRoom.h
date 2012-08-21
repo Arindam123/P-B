@@ -15,8 +15,8 @@
 #import "MyPreferences.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
+
 
 @interface FunctionRoom : ButtonAction<UITextViewDelegate,UITextFieldDelegate,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
     
@@ -54,9 +54,11 @@
     UILabel *req7;
     UILabel *req8;
     UILabel *req9;
-    
+     MBProgressHUD *_hud;
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
+    NSString *pageName;
+     
 }
 
 @property(nonatomic,retain)UIButton *backButton;
@@ -84,6 +86,7 @@
 @property(nonatomic,retain)UITextField *txt_9th;
 @property(nonatomic,retain)UITextView *txt_view;
 @property(nonatomic,retain)UIButton *btn_submit;
+@property(nonatomic,retain)NSString *pageName;
 
 
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
@@ -91,6 +94,7 @@
 -(void)CreateView;
 -(void)setViewFrame;
 -(IBAction)Click_submitbtn:(id)sender;
+-(BOOL) validateEmail: (NSString *)Email;
 
 -(void)formSubmit:(NSString *)location numberOfpeople:(NSString *)noOfpeople purposeOfEvent:(NSString *)event Date:(NSString *)date Require:(NSString *)require OtherRequirements:(NSString *)otherRequirements Name:(NSString *)name Emailaddress:(NSString *)email ConfirmEmail:(NSString *)con_email PhoneNumber:(NSString *)ph_number;
 

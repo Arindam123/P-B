@@ -25,9 +25,10 @@
 {
     static UIImage *backgroundImage = nil;
     if (!backgroundImage) {
-        backgroundImage = [UIImage imageNamed:@"TopBar_iPhone.png"];
-        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        self.layer.borderWidth = 1.0;
+        backgroundImage = [UIImage imageNamed:@"HeaderOne.png"];
+        //backgroundImage.
+       // self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        //self.layer.borderWidth = 1.0;
     }
     [backgroundImage drawInRect:rect];
 }

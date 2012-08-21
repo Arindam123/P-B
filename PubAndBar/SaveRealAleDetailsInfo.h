@@ -11,6 +11,6 @@
 @interface SaveRealAleDetailsInfo : NSObject
 
 +(NSMutableArray *)GetRealAleTypeInfo:(int)ID;
-+(NSMutableArray *)GetAleBeerDetailsInfo:(int)ID;
++(NSMutableArray *)GetAleBeerDetailsInfo:(int)ID withPubID:(int) _pubID;
 
 @end

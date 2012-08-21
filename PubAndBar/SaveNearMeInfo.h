@@ -12,8 +12,9 @@
     
 
 }
++(double) calculateDistance :(double)_latitude andLongitude:(double)_longitude;
 
-+(NSMutableArray *)GetNearMePubsInfo;
-
++(NSMutableArray *)GetNearMePubsInfo:(NSString *)pubDistance;
++(NSMutableArray *)GetNearMeNonSubPubsInfo:(NSString *)pubDistance withLimitValue:(int) _limitVal hitCount:(int)_count;
 
 @end

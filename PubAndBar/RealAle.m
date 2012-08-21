@@ -17,12 +17,6 @@
 #import "LinkedINViewController.h"
 #import "ASIHTTPRequest.h"
 
-#import "URLRequestString.h"
-#import "InternetValidation.h"
-#import "DBFunctionality.h"
-#import "JSON.h"
-#import "DBFunctionality4Update.h"
-#import "DBFunctionality4Delete.h"
 
 
 @interface RealAle ()
@@ -54,7 +48,7 @@
 @synthesize img_1stLbl;
 
 @synthesize oAuthLoginView;
-@synthesize reloading=_reloading;
+
 
 
 UIInterfaceOrientation orientation;
@@ -80,11 +74,11 @@ AppDelegate *app;
 #pragma mark - View lifecycle
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView
+ {
+ }
+ */
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -93,17 +87,17 @@ AppDelegate *app;
     [super viewDidLoad];
     
     self.eventTextLbl.text=realale;
-
+    
     
     toolBar = [[Toolbar alloc]init];
     //toolBar.layer.borderWidth = 1.0f;
     [self.view addSubview:toolBar];
     
-   
-
+    
+    
     aleArray = [[NSMutableArray alloc]init];
     searchArray = [[NSMutableArray alloc]init];
-
+    
     
     //-----------------------------------mb-05-06-12---------------------------//
     aleArray = [[SaveRealAleInfo GetAleInfo]retain]; 
@@ -113,7 +107,7 @@ AppDelegate *app;
     
     //-----------------------------------mb----------------------------//
     if ([aleArray count]==0) {
-   
+        
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"No Venues Found! Please Try Again......" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
@@ -121,7 +115,7 @@ AppDelegate *app;
     }
     [self CreateView];
     //----------------------------------------------------------------//
-
+    
     
 }
 
@@ -144,7 +138,7 @@ AppDelegate *app;
         aleArray = [tempArray retain];
     }
     [table_realale reloadData];
-
+    
 }
 
 
@@ -163,10 +157,10 @@ AppDelegate *app;
 -(void)CreateView{
     
     
-//    searchingBar = [[UISearchBar alloc] init];
-//    [searchingBar setDelegate:self];
-//    searchingBar.autocorrectionType = UITextAutocorrectionTypeYes;
-//    searchingBar.placeholder = @"Search by Brewery Name";
+    //    searchingBar = [[UISearchBar alloc] init];
+    //    [searchingBar setDelegate:self];
+    //    searchingBar.autocorrectionType = UITextAutocorrectionTypeYes;
+    //    searchingBar.placeholder = @"Search by Brewery Name";
     
     
     table_realale = [[UITableView alloc]init];
@@ -181,24 +175,27 @@ AppDelegate *app;
     text_field.backgroundColor=[UIColor whiteColor];
     text_field.returnKeyType = UIReturnKeyDone;
     text_field.autocorrectionType = UITextAutocorrectionTypeNo;
-    
+    text_field.highlighted = YES;
+    text_field.layer.borderWidth = 2.0;
+    text_field.layer.borderColor = [UIColor clearColor].CGColor;
+
     line_vw=[[UIView alloc]init];
     line_vw.backgroundColor=[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
     backButton = [[UIButton alloc]init];
     [backButton addTarget:self action:@selector(ClickBack:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
     [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateHighlighted];
-
-   
+    
+    
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:10];
     
-//    btnsearch = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btnsearch addTarget:self action:@selector(SearchBreweryOrAle:) forControlEvents:UIControlEventTouchUpInside];
-//    [btnsearch setTitle:@"< Search by Brewery Name" forState:UIControlStateNormal];
-//    [btnsearch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    btnsearch.backgroundColor = [UIColor clearColor];
-//    btnsearch.titleLabel.font=[UIFont boldSystemFontOfSize:8];
+    //    btnsearch = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    [btnsearch addTarget:self action:@selector(SearchBreweryOrAle:) forControlEvents:UIControlEventTouchUpInside];
+    //    [btnsearch setTitle:@"< Search by Brewery Name" forState:UIControlStateNormal];
+    //    [btnsearch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    //    btnsearch.backgroundColor = [UIColor clearColor];
+    //    btnsearch.titleLabel.font=[UIFont boldSystemFontOfSize:8];
     
     searchLabel = [[UILabel alloc] init];
     searchLabel.text = @"< Search by Brewery Name";
@@ -222,9 +219,9 @@ AppDelegate *app;
     Title_lbl.textAlignment=UITextAlignmentLeft;
     
     img_1stLbl=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"DownArrow.png"]];
-
     
-
+    
+    
     
     [self setAleViewFrame];
     [self.view addSubview:vw_search];
@@ -238,13 +235,6 @@ AppDelegate *app;
     [self.view addSubview:searchLabel];
     //[self.view addSubview:searchingBar];
     
-    if (refreshHeaderView == nil) {
-		refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - table_realale.bounds.size.height, 320.0f, table_realale.bounds.size.height)];
-		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-		[table_realale addSubview:refreshHeaderView];
-		[refreshHeaderView release];
-	}
-    
     [backButton release];
     [vw_search release];
     [Title_lbl release];
@@ -252,251 +242,8 @@ AppDelegate *app;
     //[btnsearch release];
 }
 
-#pragma mark
-#pragma mark PullTableViewRefresh Delegates
-
-
-- (void)reloadTableViewDataSource{
-	
-    [self performSelector:@selector(callingServer)];
-}
-
-
-
-- (void)doneLoadingTableViewData{
-    
-  	[self dataSourceDidFinishLoadingNewData];
-    
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-	
-	if (scrollView.isDragging) {
-		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
-			[refreshHeaderView setState:EGOOPullRefreshNormal];
-		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
-			[refreshHeaderView setState:EGOOPullRefreshPulling];
-		}
-	}
-    
-    
-}
-
-
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
-	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
-		_reloading = YES;
-		[self performSelector:@selector(reloadTableViewDataSource) withObject:nil afterDelay:0.2];
-		[refreshHeaderView setState:EGOOPullRefreshLoading];
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.2];
-		table_realale.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-		[UIView commitAnimations];
-	}
-}
-
-
-- (void)dataSourceDidFinishLoadingNewData{
-	
-    //[self performSelector:@selector(dismissHUD:)];
-	_reloading = NO;
-	[table_realale reloadData];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:.3];
-	[table_realale setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-	[UIView commitAnimations];
-	
-	[refreshHeaderView setState:EGOOPullRefreshNormal];
-	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
-}
--(void) callingServer
-{    
-    if([InternetValidation  checkNetworkStatus])
-    {
-        
-        //str_RefName =;
-        ServerConnection *conn1 = [[ServerConnection alloc] init];
-        [conn1 setServerDelegate:self];
-        
-        [conn1 getRealAleData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
-        
-        [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
-        [conn1 release];
-    }
-    else
-    {
-        
-        UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:@"Internet Connection is Unavailable." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        alert.tag = 30;
-        [alert  show];
-        [alert  release];
-    }
-}
-
--(void)afterSuccessfulConnection:(NSString*)data_Response
-{
-    if (!deletedDataCall) {
-        
-        NSDictionary *json = [data_Response JSONValue];
-        
-        
-        NSMutableArray *realAleArray = [[[json valueForKey:@"Details"] valueForKey:@"Brewery Details"] retain];
-        
-        
-        if ([realAleArray count] !=0) {
-            
-            for (int i = 0; i<[realAleArray count]; i++) {
-                
-                
-                
-                NSMutableArray *beerDetailsArray = [[[realAleArray objectAtIndex:i] valueForKey:@"Beer Details"] retain];
-                
-                for (int j = 0; j<[beerDetailsArray count]; j++) {
-                    
-                    
-                    NSMutableArray *pubDetailsArray = [[[beerDetailsArray objectAtIndex:j] valueForKey:@"Pub Information"] retain];
-                    
-                    
-                    for (int k = 0; k< [pubDetailsArray count]; k++) {
-                        
-                        
-                        
-                        [[DBFunctionality sharedInstance] InsertValue_RealAle_Type:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withName:[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Name"] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] pubDistance:0.0];//distance/1000
-                        
-                        [[DBFunctionality sharedInstance] InsertValue_Beer_Detail:[[[beerDetailsArray objectAtIndex:j] valueForKey:@"Beer ID"] intValue] withBreweryID:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withBeerName:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Ale Name"] withBeerCategory:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Category"] pubDistance:0.0];//distance/1000
-                        
-                        
-                        
-                        [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubDetailsArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000 
-                    }
-                    [pubDetailsArray release];
-                }
-                
-                [beerDetailsArray release];
-            }
-            
-            
-        }
-        [realAleArray release];
-        
-        
-        [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-        [self deletedDataCalling:4];
-        
-    }
-    
-    
-    else
-    {
-        NSDictionary *json = [data_Response JSONValue];
-        
-        
-        NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-        NSLog(@"%d",[Arr_events count]);
-        
-        if ([Arr_events count] != 0) {
-            
-            [[DBFunctionality4Delete sharedInstance] deleteRealAle:[[json valueForKey:@"Details"] valueForKey:@"Non Active Ales"]];
-            
-            for (int i = 0; i < [Arr_events count]; i++) {
-                
-                //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                //NSLog(@"%@",Str_Event);
-                NSString *EventTypeID;
-                
-                if ([Str_Event isEqualToString:@"RegularEvent"])
-                    EventTypeID = @"1";
-                else if([Str_Event isEqualToString:@"OneOffEvent"])
-                    EventTypeID = @"2";
-                else if([Str_Event isEqualToString:@"ThemeNight"])
-                    EventTypeID = @"3";
-                
-                NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                
-                for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                    
-                    int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                    
-                    
-                    NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                    //NSLog(@"%d",[Arr_PubInfo count]);
-                    
-                    for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                        
-                        
-                        int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                        
-                        [[DBFunctionality4Delete sharedInstance] deleteRealAle:pubid andEventID:EventId];
-                        
-                        
-                    }
-                }
-                
-            }
-        }
-        
-    }
-    deletedDataCall = NO;
-    [self performSelector:@selector(myThreadMainMethod:) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
-    
-    [self performSelector:@selector(updateDB) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
-    [self performSelector:@selector(doneLoadingTableViewData)];  
-}
-
-
--(void) updateDB
-{
-     aleArray = [[SaveRealAleInfo GetAleInfo]retain];
-}
--(void)afterFailourConnection:(id)msg
-{
-    NSLog(@"MESSAGE  %@",msg);
-    //[self callingNonSubPubs:nonSubValue];
-    
-    //[self performSelector:@selector(dismissHUD:)];
-    [self performSelector:@selector(doneLoadingTableViewData)];	
-    UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    alert.tag = 10;
-    [alert  show];
-    [alert  release];
-    
-}
-
--(void) deletedDataCalling:(int)_callerNumber
-{
-    deletedDataCall = YES;
-    if (_callerNumber == 4) {
-        
-        if([InternetValidation  checkNetworkStatus])
-        {
-            deletedEventString = @"RealAleDeleted";
-            ServerConnection *conn1 = [[ServerConnection alloc] init];
-            [conn1 setServerDelegate:self];
-            [conn1 deleteRealAleData:[[DBFunctionality sharedInstance] GetlastupdateddatefromPubDetails]];
-            [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
-            [conn1 release];
-        }
-        else{
-            NSLog(@"CONNECTION ERROR");
-        }
-        
-        
-    }
-}
--(void) myThreadMainMethod:(id) sender
-{
-    [[DBFunctionality4Update sharedInstance] UpdatePubDistance];
-    
-}
-
-
 -(IBAction)ClickBack:(id)sender{
-     [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateNormal];
     [self.navigationController popViewControllerAnimated:YES];
 }
 //-------------------mb-05-06-12----------------------------//
@@ -506,46 +253,46 @@ AppDelegate *app;
 -(IBAction)SearchBreweryOrAle:(id)sender
 {
     /*NSMutableArray *arr_aleID;
-    NSMutableString *str=[ NSMutableString stringWithFormat: @"ale"];
-    arr_aleID=[SaveRealAleInfo GetSearchAleInfo:[text_field.text capitalizedString]];
-    if ([arr_aleID count]==0) {
-         arr_aleID=[SaveRealAleInfo GetSearchBeerInfo:[text_field.text capitalizedString]];
-    str=[ NSMutableString stringWithFormat:@"beer"];
-    }
-    if ([arr_aleID count]==0) {
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"No result found....." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-         [alert show];
-        [alert release];
-       
-    }
-    else
-    {
-        RealAleDetail *obj = [[RealAleDetail alloc]initWithNibName:[Constant GetNibName:@"RealAleDetail"] bundle:[NSBundle mainBundle]];
-        if ([str isEqualToString:@"ale"]) {
-             obj.Realale_ID =    [[arr_aleID objectAtIndex:0] valueForKey:@"Ale_ID"];
-            obj.str_breweryName=[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_Name"];
-            obj.strPostcode=[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_Postcode"];
-        }
-        else
-        {
-            obj.Realale_ID =    [[arr_aleID objectAtIndex:0] valueForKey:@"Beer_ID"];
-            NSMutableArray *arr1=[SaveRealAleInfo GetSearchAleInfoFromBeer:[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_ID"]];
-            
-            obj.str_breweryName=[[arr1 objectAtIndex:0] valueForKey:@"Ale_Name"];
-            obj.strPostcode=[[arr1 objectAtIndex:0] valueForKey:@"Ale_Postcode"];
-        }
-       
-        obj._Name = realale;
-        
-        obj.searchRadius = searchRadius;
-        
-        obj.str=str;
-        
-       
-        
-        [self.navigationController pushViewController:obj animated:YES];
-        [obj release];
-    }*/
+     NSMutableString *str=[ NSMutableString stringWithFormat: @"ale"];
+     arr_aleID=[SaveRealAleInfo GetSearchAleInfo:[text_field.text capitalizedString]];
+     if ([arr_aleID count]==0) {
+     arr_aleID=[SaveRealAleInfo GetSearchBeerInfo:[text_field.text capitalizedString]];
+     str=[ NSMutableString stringWithFormat:@"beer"];
+     }
+     if ([arr_aleID count]==0) {
+     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub and Bar Network" message:@"No result found....." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+     [alert show];
+     [alert release];
+     
+     }
+     else
+     {
+     RealAleDetail *obj = [[RealAleDetail alloc]initWithNibName:[Constant GetNibName:@"RealAleDetail"] bundle:[NSBundle mainBundle]];
+     if ([str isEqualToString:@"ale"]) {
+     obj.Realale_ID =    [[arr_aleID objectAtIndex:0] valueForKey:@"Ale_ID"];
+     obj.str_breweryName=[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_Name"];
+     obj.strPostcode=[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_Postcode"];
+     }
+     else
+     {
+     obj.Realale_ID =    [[arr_aleID objectAtIndex:0] valueForKey:@"Beer_ID"];
+     NSMutableArray *arr1=[SaveRealAleInfo GetSearchAleInfoFromBeer:[[arr_aleID objectAtIndex:0] valueForKey:@"Ale_ID"]];
+     
+     obj.str_breweryName=[[arr1 objectAtIndex:0] valueForKey:@"Ale_Name"];
+     obj.strPostcode=[[arr1 objectAtIndex:0] valueForKey:@"Ale_Postcode"];
+     }
+     
+     obj._Name = realale;
+     
+     obj.searchRadius = searchRadius;
+     
+     obj.str=str;
+     
+     
+     
+     [self.navigationController pushViewController:obj animated:YES];
+     [obj release];
+     }*/
     
 }
 //---------------------------------------------------------//
@@ -563,31 +310,31 @@ AppDelegate *app;
             table_realale.frame=CGRectMake(10, 180, 300, 240);
             table_realale.scrollEnabled = YES;
             backButton.frame=CGRectMake(8, 90, 50, 25);
-
-            text_field.frame = CGRectMake(80, 93, 140, 20);
-//            searchingBar.frame = CGRectMake(73, 85, 235, 40);
-//            UITextField *textField = [[searchingBar subviews] objectAtIndex:1];
-//            [textField setFrame:CGRectMake(73, 85, 235, 30)];
             
-
+            text_field.frame = CGRectMake(80, 93, 140, 20);
+            //            searchingBar.frame = CGRectMake(73, 85, 235, 40);
+            //            UITextField *textField = [[searchingBar subviews] objectAtIndex:1];
+            //            [textField setFrame:CGRectMake(73, 85, 235, 30)];
+            
+            
             //btnsearch.frame = CGRectMake(210, 88, 105, 30);
             searchLabel.frame = CGRectMake(228, 88, 95, 30);
             vw_search.frame=CGRectMake(10, 132, 300, 2);
             Title_lbl.frame=CGRectMake(11, 145, 200, 24);
-           // line_vw.frame=CGRectMake(11, 172, 130, 2);
+            // line_vw.frame=CGRectMake(11, 172, 130, 2);
             img_1stLbl.frame=CGRectMake(137, 155, 8, 8);
             if (app.ismore==YES) {
                 //toolBar.frame = CGRectMake(-320, 387, 640, 48);
                 toolBar.frame = CGRectMake(8.5, 421, 303, 53);
             }
             else{
-               // toolBar.frame = CGRectMake(0, 387, 640, 48);
+                // toolBar.frame = CGRectMake(0, 387, 640, 48);
                 toolBar.frame = CGRectMake(8.5, 421, 303, 53);
             }
             
-                        
-
-
+            
+            
+            
         }
         
         else{
@@ -597,7 +344,7 @@ AppDelegate *app;
             text_field.frame = CGRectMake(177, 86, 135, 20);
             //searchingBar.frame = CGRectMake(98, 93, 125, 44);
             searchLabel.frame = CGRectMake(380, 82, 90, 30);
-
+            
             //btnsearch.frame = CGRectMake(345, 83, 100, 30);
             vw_search.frame=CGRectMake(10, 116, 460, 2);
             Title_lbl.frame=CGRectMake(11, 132, 200, 20);
@@ -608,25 +355,25 @@ AppDelegate *app;
             else{
                 toolBar.frame = CGRectMake(8.5, 261, 463, 53);
             }
-
+            
         }
     }
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     
-     app =(AppDelegate*) [[UIApplication sharedApplication]delegate];
+    app =(AppDelegate*) [[UIApplication sharedApplication]delegate];
     [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
-   // app.ismore=NO;
+    // app.ismore=NO;
     self.navigationController.navigationBarHidden=YES;
     //[navBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[Constant GetImageName:@"TopBar"]]]];
     [self SetCustomNavBarFrame];
     [self setAleViewFrame];
     [self AddNotification];
-
+    
 }
 
 -(void)AddNotification
@@ -661,11 +408,6 @@ AppDelegate *app;
     
     
     obj.textString=[NSString stringWithFormat:@"Pubs and Bars showing breweries %@",tempurl];
-    
-
-    
-    
-    
     
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
@@ -713,7 +455,7 @@ AppDelegate *app;
 -(void)displayEmailComposerSheet
 {
     MFMailComposeViewController * mailController = [[MFMailComposeViewController alloc]init] ;
-     [mailController setMessageBody:[NSString stringWithFormat:@"Pubs and Bars showing breweries http://www.pubandbar-network.co.uk/realalebreweries.htm"] isHTML:NO];
+    [mailController setMessageBody:[NSString stringWithFormat:@"Pubs and Bars showing breweries http://www.pubandbar-network.co.uk/realalebreweries.htm"] isHTML:NO];
     //[mailController setToRecipients:[NSArray arrayWithObjects:EmailStr, nil]];
     mailController.mailComposeDelegate = self;
     [[[[mailController viewControllers] lastObject] navigationItem] setTitle:@"The Big Fish Experience"];
@@ -724,60 +466,60 @@ AppDelegate *app;
 }
 
 /*
-#pragma mark Searchbar Delegates
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    
-    NSLog(@"searchText   %@",searchText);
-    aleArray = [[NSMutableArray alloc] init];
-    
-    if([searchingBar.text isEqualToString:@""]|| searchText == nil)
-    { 
-        aleArray = searchArray;
-        [table_realale reloadData]; 
-        return; 
-    } 
-    NSInteger counter = 0; 
-    
-    for (int i =0; i < [searchArray count]; i++) {
-        
-        NSString *str = [[searchArray objectAtIndex:i] valueForKey:@"Ale_Name"];
-        NSRange r = [str rangeOfString:searchText]; 
-        if(r.location != NSNotFound) 
-        { 
-            if(r.location== 0)//that is we are checking only the start of the names. 
-            { 
-                [aleArray addObject:[[searchArray objectAtIndex:i] valueForKey:@"Ale_Name"]];
-            } 
-        }
-    }
-    
-    for(id result in searchArray) 
-    { 
-        NSRange r = [[result valueForKey:@"Ale_Name"] rangeOfString:searchingBar.text]; 
-        if(r.location != NSNotFound) 
-        { 
-            //if(r.location== 0)//that is we are checking only the start of the names. 
-            { 
-                [aleArray addObject:[result valueForKey:@"Ale_Name"]];
-            } 
-        } 
-        counter++; 
-    } 
-    NSLog(@"Counter :- '%d'",[aleArray count]);
-    
-    [table_realale reloadData];
-}
-
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    
-    [searchBar resignFirstResponder];
-}
-
-*/
+ #pragma mark Searchbar Delegates
+ 
+ - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+ {
+ 
+ NSLog(@"searchText   %@",searchText);
+ aleArray = [[NSMutableArray alloc] init];
+ 
+ if([searchingBar.text isEqualToString:@""]|| searchText == nil)
+ { 
+ aleArray = searchArray;
+ [table_realale reloadData]; 
+ return; 
+ } 
+ NSInteger counter = 0; 
+ 
+ for (int i =0; i < [searchArray count]; i++) {
+ 
+ NSString *str = [[searchArray objectAtIndex:i] valueForKey:@"Ale_Name"];
+ NSRange r = [str rangeOfString:searchText]; 
+ if(r.location != NSNotFound) 
+ { 
+ if(r.location== 0)//that is we are checking only the start of the names. 
+ { 
+ [aleArray addObject:[[searchArray objectAtIndex:i] valueForKey:@"Ale_Name"]];
+ } 
+ }
+ }
+ 
+ for(id result in searchArray) 
+ { 
+ NSRange r = [[result valueForKey:@"Ale_Name"] rangeOfString:searchingBar.text]; 
+ if(r.location != NSNotFound) 
+ { 
+ //if(r.location== 0)//that is we are checking only the start of the names. 
+ { 
+ [aleArray addObject:[result valueForKey:@"Ale_Name"]];
+ } 
+ } 
+ counter++; 
+ } 
+ NSLog(@"Counter :- '%d'",[aleArray count]);
+ 
+ [table_realale reloadData];
+ }
+ 
+ 
+ - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+ {
+ 
+ [searchBar resignFirstResponder];
+ }
+ 
+ */
 #pragma mark TextField Delegates
 
 
@@ -807,7 +549,7 @@ AppDelegate *app;
             }
         }
         [table_realale reloadData]; 
-
+        
     }
     
 }
@@ -849,35 +591,37 @@ AppDelegate *app;
 
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange) range replacementString:(NSString *) string {
+
     //if ([string isEqualToString:@"⌫"]) {
-        // NSLog(@"Backspace Pressed");
-        NSMutableString *text = [textField.text mutableCopy];
-        // NSLog(@"Length: %d Location: %d", range.length, range.location);
-        if (range.length > 0) {
-            [text deleteCharactersInRange:range];
-            
-        }
-        else {
-            //NSRange backward = NSMakeRange(range.location - 1, 1);
-            // NSLog(@"Length: %d Location: %d", backward.length, backward.location);
-            //[text deleteCharactersInRange:backward];
-            [text appendString:string];
-        }
-         NSLog(@"TEXTTTTT %@", text);
-        [self userDidAddorRemovedText:[text capitalizedString]];
-        //textField.text = text;
-        return YES;
+    // NSLog(@"Backspace Pressed");
+    NSMutableString *text = [textField.text mutableCopy];
+    // NSLog(@"Length: %d Location: %d", range.length, range.location);
+    if (range.length > 0) {
+        [text deleteCharactersInRange:range];
+        
+    }
+    else {
+        //NSRange backward = NSMakeRange(range.location - 1, 1);
+        // NSLog(@"Length: %d Location: %d", backward.length, backward.location);
+        //[text deleteCharactersInRange:backward];
+        [text appendString:string];
+    }
+    NSLog(@"TEXTTTTT %@", text);
+    [self userDidAddorRemovedText:[text capitalizedString]];
+    //textField.text = text;
+    return YES;
     //} 
-//    else 
-//    {
-//        return YES;
-//    }
+    //    else 
+    //    {
+    //        return YES;
+    //    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     NSLog(@"textFieldDidBeginEditing  %@",textField.text);
-
+    textField.layer.borderColor = [UIColor orangeColor].CGColor;
+    
 }
 
 
@@ -886,6 +630,8 @@ AppDelegate *app;
     NSLog(@"textFieldDidEndEditing  %@",textField.text);
     //[self getBreweryNames];
     [textField resignFirstResponder];
+    textField.layer.borderColor = [UIColor clearColor].CGColor;
+
     //text_field.text = @"";
 }
 
@@ -914,8 +660,6 @@ AppDelegate *app;
     LinkedINViewController *obj = [[LinkedINViewController alloc] initWithNibName:@"LinkedINViewController" bundle:nil];
     
     obj.shareText=[NSString stringWithFormat:@"Pubs and Bars showing breweries http://www.pubandbar-network.co.uk/realalebreweries.htm"];
-    
-        
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
     [self presentModalViewController:nav animated:YES];
     [obj release];
@@ -941,7 +685,7 @@ AppDelegate *app;
     [obj release];
     [nav release];
     
-
+    
 }
 
 -(void) FBLoginDone:(id)objectDictionay
@@ -950,19 +694,19 @@ AppDelegate *app;
 }
 -(void) wallPosting
 {
-     NSString *fb_str;
+    NSString *fb_str;
     
     fb_str=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/realalebreweries.htm"];
-
+    
     
     
     NSMutableDictionary *params = 
     [NSMutableDictionary dictionaryWithObjectsAndKeys:
      @"Greetings", @"name",
      @"Check it out!", @"caption",fb_str,
-      //@"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://tinyurl.com/8x5jh6v ",
+     //@"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://tinyurl.com/8x5jh6v ",
      @"message",
-    // @"Want to share through Greetings", @"description",
+     // @"Want to share through Greetings", @"description",
      @"https://m.facebook.com/apps/Greetings/", @"link",
      //@"http://fbrell.com/f8.jpg", @"picture",
      nil];  
@@ -1199,6 +943,6 @@ AppDelegate *app;
     [searchUnit release];
     [searchLabel release];
     [super dealloc];
-
+    
 }
 @end

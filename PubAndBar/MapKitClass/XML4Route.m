@@ -7,7 +7,7 @@
 //
 
 #import "XML4Route.h"
-//#import "RestaurantFinderAppDelegate.h"
+#import "AppDelegate.h"
 
 @implementation XML4Route
 
@@ -16,10 +16,9 @@
 -(XML4Route *)initXMLParser{
 	
 	//appDel = [[ESPProjectAppDelegate alloc]init];
-	appDel = (RestaurantFinderAppDelegate *)[[UIApplication sharedApplication] delegate]; 
+	appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate]; 
 	
 	[super init];
-	//appDel = (ESPProjectAppDelegate *)[[UIApplication sharedApplication] delegate];
 	return self;
 	
 }
@@ -29,7 +28,7 @@
 	attributes:(NSDictionary *)attributeDict {
 
 	
-	
+	//NSLog(@"Elementname   %@",elementName);
 	
 }
 
@@ -38,6 +37,7 @@
 	/* Fetching the key elements*/
 	
 	currentElementValue = [[NSMutableString alloc] initWithString:string];
+    //NSLog(@"currentElementValue  %@",currentElementValue);
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
@@ -52,7 +52,7 @@
 	if([elementName isEqualToString:@"points"]) {
 					
 
-		//appDel.mapRouteLine = [[NSString alloc] initWithString:currentElementValue];
+		appDel.mapRouteLine = [[NSString alloc] initWithString:currentElementValue];
 		[currentElementValue release];
 		currentElementValue = nil;
 		

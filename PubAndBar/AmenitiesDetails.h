@@ -18,7 +18,7 @@
 #import "MyPreferences.h"
 
 @interface AmenitiesDetails : ButtonAction
-<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
+<FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,UIPickerViewDelegate,UIPickerViewDataSource>{
     
     UITableView *table_catagory;
     UILabel *lbl_heading;
@@ -31,11 +31,14 @@
     
     UIButton *SearchBtn;
     NSMutableArray *AmmenitiesArray;
-    
+     MBProgressHUD *_hud;
     int r;
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
+    UIPickerView *pickerDistenceWheel;
+    NSString * pickerValue;
 }
+@property (retain) MBProgressHUD *hud;
 @property(nonatomic,retain) UITableView *table_catagory;
 @property(nonatomic,retain)UILabel *lbl_heading;
 @property(nonatomic,retain)NSMutableArray *catagoryArray;

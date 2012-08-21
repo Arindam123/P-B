@@ -10,6 +10,13 @@
 #import "Toolbar.h"
 #import "ServerConnection.h"
 #import "URLRequestString.h"
+#import "InternetValidation.h"
+#import "AppDelegate.h"
+#import "MyProfileSetting.h"
+#import "FBViewController.h"
+#import "GooglePlusViewController.h"
+#import "TwitterViewController.h"
+#import "LinkedINViewController.h"
 
 @implementation FunctionRoom
 @synthesize backButton;
@@ -37,13 +44,14 @@
 @synthesize txt_9th;
 @synthesize txt_view;
 @synthesize btn_submit; 
+@synthesize pageName;
 
 @synthesize oAuthLoginView;
 
 
 Toolbar *_Toolbar;
 AppDelegate *app;
-
+UIInterfaceOrientation orientation;
  int  height =10;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -79,13 +87,14 @@ AppDelegate *app;
 {
     [super viewDidLoad];
     self.view.frame = CGRectMake(0, 0, 320, 395);
-    app = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+   
     _Toolbar = [[[Toolbar alloc]init]autorelease];
-    _Toolbar.layer.borderWidth = 1.0f;
+   // _Toolbar.layer.borderWidth = 1.0f;
     [self.view addSubview:_Toolbar];
 
     [self CreateView];
     
+       
 }
 
 -(void)CreateView{
@@ -177,7 +186,9 @@ AppDelegate *app;
     
     backButton = [[UIButton alloc]init];
     [backButton addTarget:self action:@selector(ClickBack:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setImage:[UIImage imageNamed:@"BackWhiteButton.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateHighlighted];
+
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:10];
     
@@ -316,6 +327,7 @@ AppDelegate *app;
     txt_9th.backgroundColor = [UIColor whiteColor];
     txt_9th.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     txt_9th.delegate=self;
+    
    
 
     btn_submit = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -383,11 +395,11 @@ AppDelegate *app;
     }
     else{
         if ([Constant isPotrait:self]) {
-            scrw.contentSize = CGSizeMake(0, 450);
-           lbl_heading.frame = CGRectMake(110, 0, 125, 30);
-            backButton.frame = CGRectMake(5, 10, 50, 20);
-            scrw.frame = CGRectMake(0, 120, 320, 260);
-            lbl_content.frame = CGRectMake(50, 25, 230, 100);
+            scrw.contentSize = CGSizeMake(0, 520);
+           lbl_heading.frame = CGRectMake(110, 89, 125, 30);
+            backButton.frame = CGRectMake(8, 90, 50, 25);
+            scrw.frame = CGRectMake(0, 205, 320, 220);
+            lbl_content.frame = CGRectMake(50, 115, 230, 100);
             lbl_1st.frame = CGRectMake(20, 0, 80, 35);
             lbl_2nd.frame = CGRectMake(20, 35, 80, 50);
             lbl_3rd.frame = CGRectMake(20, 80, 80, 35);
@@ -420,16 +432,25 @@ AppDelegate *app;
             req7.frame=CGRectMake(255, 273, 50, 20);
             req8.frame=CGRectMake(255, 309, 50, 20);
             req9.frame=CGRectMake(255, 350, 50, 20);
-            
+            if (app.ismore==YES) {
+                //_Toolbar.frame = CGRectMake(-320, 387, 640, 48);
+                _Toolbar.frame = CGRectMake(8.5, 421, 303, 53);
+            }
+            else{
+               // _Toolbar.frame = CGRectMake(0, 387, 640, 48);
+                _Toolbar.frame = CGRectMake(8.5, 421, 303, 53);
+            }
+           
+
                      
         }
         
         else{
-            scrw.contentSize = CGSizeMake(0, 335);
-            lbl_heading.frame = CGRectMake(180, 12, 125, 40);
-            backButton.frame = CGRectMake(20, 26, 50, 20);
-            lbl_content.frame = CGRectMake(90, 45, 300, 70);
-             scrw.frame = CGRectMake(0, 120, 480, 110);
+            scrw.contentSize = CGSizeMake(0, 340);
+            lbl_heading.frame = CGRectMake(180, 63, 125, 40);
+            backButton.frame = CGRectMake(20, 85, 50, 25);
+            lbl_content.frame = CGRectMake(90, 95, 300, 70);
+             scrw.frame = CGRectMake(0, 180, 480, 80);
             lbl_1st.frame = CGRectMake(90, 0, 100, 20);
             txt_1st.frame = CGRectMake(200, 7, 170, 15);
             lbl_2nd.frame = CGRectMake(90, 30, 100, 30);
@@ -461,40 +482,71 @@ AppDelegate *app;
             req7.frame=CGRectMake(370, 193, 70, 20);
             req8.frame=CGRectMake(370, 224, 70, 20);
             req9.frame=CGRectMake(370, 254, 70, 20);
-                  
+            if (app.ismore==YES) {
+                _Toolbar.frame = CGRectMake(8.5, 261, 463, 48);
+            }
+            else{
+                _Toolbar.frame = CGRectMake(8.5, 261, 468, 48);
+            }
+
+            
         }
     }
 
 }
 
+-(BOOL) validateEmail: (NSString *)Email {
+    NSString *emailRegex = @"[0-9a-z._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}"; 
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",emailRegex]; 
+    return [emailTest evaluateWithObject:Email];
+    
+}
+
+
 -(IBAction)Click_submitbtn:(id)sender {
     
     if ([txt_1st.text isEqualToString:@""] || [txt_2nd.text isEqualToString:@""] || [txt_3rd.text isEqualToString:@""] || [txt_2nd.text isEqualToString:@""] || [txt_2nd.text isEqualToString:@""] || [txt_4th.text isEqualToString:@""] || [txt_5th.text isEqualToString:@""] || [txt_view.text isEqualToString:@""] || [txt_6th.text isEqualToString:@""] || [txt_7th.text isEqualToString:@""] || [txt_8th.text isEqualToString:@""] || txt_1st.text == nil || txt_2nd.text==nil || txt_3rd.text==nil || txt_4th.text==nil || txt_5th.text==nil || txt_view.text==nil || txt_6th.text==nil || txt_7th.text==nil || txt_8th.text==nil) {
         
-        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Please fill up all required field." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert1=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"Please fill up all required field." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert1 show];
         [alert1 release];
                 
     }
     
-    else{
-        
-        if(![txt_7th.text isEqualToString:txt_8th.text]){
+           
+
+    
+    else if(![txt_7th.text isEqualToString:txt_8th.text]){
             
-            UIAlertView *alert2=[[UIAlertView alloc]initWithTitle:@"Sorry" message:@"Please check your email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert2=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"Please check your email address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alert2 show];
             [alert2 release];
 
     }
+        
+        else if(([self validateEmail:txt_7th.text]==NO)&&([self validateEmail:txt_8th.text]==NO))
+        {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"Please enter valid Email Id" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+            
+        }
+        
+
     else{
+        NSLog(@"%@ %@ %@ %@ %@ %@ %@ %@ %@ %@",txt_1st.text,txt_2nd.text,txt_3rd.text,txt_4th.text,txt_5th.text,txt_view.text,txt_6th.text,txt_7th.text,txt_8th.text,txt_9th.text);
             
     [self formSubmit:txt_1st.text numberOfpeople:txt_2nd.text purposeOfEvent:txt_3rd.text Date:txt_4th.text Require:txt_5th.text OtherRequirements:txt_view.text Name:txt_6th.text Emailaddress:txt_7th.text ConfirmEmail:txt_8th.text PhoneNumber:txt_9th.text];
             
+        
+        
+        
+        
         }
         
     }
         
- }
+
 
 -(IBAction)ClickBack:(id)sender{
     
@@ -504,13 +556,32 @@ AppDelegate *app;
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBarHidden=NO;
-    [navBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[Constant GetImageName:@"TopBar"]]]];
+   // app.ismore=NO;
+     app = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    self.navigationController.navigationBarHidden=YES;
+    //[navBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[Constant GetImageName:@"TopBar"]]]];
     [self SetCustomNavBarFrame];
     [self setViewFrame];
     
      [self AddNotification];
+    
+    NSLog(@"%@",[app.Savedata valueForKey:@"FirstName"]);
+    NSLog(@"%@",[app.Savedata valueForKey:@"EmailAddr"]);
+     NSLog(@"%@",[app.Savedata valueForKey:@"location"]);
+    
+    if ([[app.Savedata valueForKey:@"FirstName"] length]!=0) {
+        txt_6th.text=[app.Savedata valueForKey:@"FirstName"];
+    }
+    if ([[app.Savedata valueForKey:@"EmailAddr"] length]!=0) {
+        txt_7th.text=[app.Savedata valueForKey:@"EmailAddr"];
+        txt_8th.text=[app.Savedata valueForKey:@"EmailAddr"];
+    }
+    if ([[app.Savedata valueForKey:@"location"] length]!=0) {
+        txt_1st.text=[app.Savedata valueForKey:@"location"];
+    }
+    
+    
+    
  }
 
 
@@ -528,15 +599,24 @@ AppDelegate *app;
 #pragma mark- share
 
 - (void)ShareInTwitter:(NSNotification *)notification {
-    iCodeOauthViewController *obj_twt=[[iCodeOauthViewController alloc]initWithNibName:nil bundle:nil];
-     obj_twt.twt_text=@"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://tinyurl.com/8x5jh6v  This will do the job of informing the recipient of the message about the app so they download it.";
-    [self.navigationController pushViewController:obj_twt animated:YES];
-    [obj_twt release];
+    TwitterViewController *obj = [[TwitterViewController alloc] initWithNibName:@"TwitterViewController" bundle:nil];
+    
+    obj.textString = @"Check out this great FREE app and search facility for finding pubs and bars” http://tinyurl.com/dxzhhto";
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
+    [self presentModalViewController:nav animated:YES];
+    [obj release];
+    [nav release];
 }                 
 
 
+
 - (void)ShareInGooglePlus:(NSNotification *)notification {
-    ;
+    GooglePlusViewController *obj = [[GooglePlusViewController alloc] initWithNibName:@"GooglePlusViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:obj];
+    [self presentModalViewController:navigationController animated:YES];
+    [navigationController release];
+    [obj release];;
 }
 
 
@@ -571,9 +651,11 @@ AppDelegate *app;
 {
     MFMailComposeViewController * mailController = [[MFMailComposeViewController alloc]init] ;
     
+    
+     [mailController setMessageBody:[NSString stringWithFormat:@"Check out this great FREE app and search facility for finding pubs and bars” http://tinyurl.com/dxzhhto"] isHTML:NO];    
     //[mailController setToRecipients:[NSArray arrayWithObjects:EmailStr, nil]];
     mailController.mailComposeDelegate = self;
-    [[[[mailController viewControllers] lastObject] navigationItem] setTitle:@"The Big Fish Experience"];
+    [[[[mailController viewControllers] lastObject] navigationItem] setTitle:@"Pub & bar Network"];
     [self presentModalViewController:mailController animated:YES];
     
     [mailController release];
@@ -587,24 +669,22 @@ AppDelegate *app;
 }
 
 - (void)Settings:(NSNotification *)notification {
-    MyPreferences *obj_mypreferences=[[MyPreferences alloc]initWithNibName:[Constant GetNibName:@"MyPreferences"] bundle:[NSBundle mainBundle]];
-    [self.navigationController pushViewController:obj_mypreferences animated:YES];
-    [obj_mypreferences release];
+    MyProfileSetting *obj_MyProfileSetting=[[MyProfileSetting alloc]initWithNibName:[Constant GetNibName:@"MyProfileSetting"] bundle:[NSBundle mainBundle]];
+    [self.navigationController pushViewController:obj_MyProfileSetting animated:YES];
+    [obj_MyProfileSetting release];
 }
 
-
 - (void)ShareInLinkedin:(NSNotification *)notification {
-    oAuthLoginView = [[OAuthLoginView alloc] initWithNibName:nil bundle:nil];
-    [oAuthLoginView retain];
     
-    // register to be told when the login is finished
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(loginViewDidFinish:) 
-                                                 name:@"loginViewDidFinish" 
-                                               object:oAuthLoginView];
+    LinkedINViewController *obj = [[LinkedINViewController alloc] initWithNibName:@"LinkedINViewController" bundle:nil];
     
+    obj.shareText = @"Check out this great FREE app and search facility for finding pubs and bars” http://tinyurl.com/dxzhhto";
     
-    [self presentModalViewController:oAuthLoginView animated:YES];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
+    [self presentModalViewController:nav animated:YES];
+    [obj release];
+    [nav release];
+    
 }
 
 -(void) loginViewDidFinish:(NSNotification*)notification
@@ -614,8 +694,13 @@ AppDelegate *app;
 }
 
 - (void)ShareInFacebook:(NSNotification *)notification {
-    [[FacebookController sharedInstance] setFbDelegate:self];
-    [[FacebookController sharedInstance] initialize];
+    
+    FBViewController *obj = [[FBViewController alloc] initWithNibName:@"FBViewController" bundle:nil];
+    obj.shareText = @"Check out this great FREE app and search facility for finding pubs and bars” http://tinyurl.com/dxzhhto";
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
+    [self presentModalViewController:nav animated:YES];
+    [obj release];
+    [nav release];
 }
 
 -(void) FBLoginDone:(id)objectDictionay
@@ -628,7 +713,8 @@ AppDelegate *app;
     [NSMutableDictionary dictionaryWithObjectsAndKeys:
      @"Greetings", @"name",
      @"Check it out!", @"caption",
-     @"Want to share through Greetings", @"description",
+     @"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://itunes.apple.com/gb/app/pub-and-bar-network/id462704657?mt=8",@"message",
+     // @"Want to share through Greetings", @"description",
      @"https://m.facebook.com/apps/Greetings/", @"link",
      //@"http://fbrell.com/f8.jpg", @"picture",
      nil];  
@@ -657,7 +743,7 @@ AppDelegate *app;
 
 - (void)dialog:(FBDialog*)dialog didFailWithError:(NSError *)error{
 	
-	UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Feed" message:@"Error Occurred!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+	UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Feed" message:@"Error Occurred!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	myAlert.tag = 60;
 	[myAlert show];
 	[myAlert release];
@@ -668,7 +754,7 @@ AppDelegate *app;
 	if ([url.absoluteString rangeOfString:@"post_id="].location != NSNotFound) {
 		//NSLog(@"URL  %@",url);			//alert user of successful post
 		
-		UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Feed" message:@"Message Posted Successfully" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Feed" message:@"Message Posted Successfully" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		myAlert.tag = 6;
 		[myAlert show];
 		[myAlert release];
@@ -729,15 +815,20 @@ AppDelegate *app;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    
+    
+    orientation = interfaceOrientation;
+    
+    
     if (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         
-        _Toolbar.frame = CGRectMake(0, 387, 320, 48);
+        _Toolbar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"FootarBar.png"]];
+        
     }
-    else{
-        _Toolbar.frame = CGRectMake(0, 240, 480, 48);
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        _Toolbar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"FootarBarL.png"]];
     }
-    
-    return YES;//(interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma  mark -
@@ -756,6 +847,7 @@ AppDelegate *app;
 {
     CGRect viewFrame = self.view.frame;
     
+       
     if ([Constant isiPad]) {
         ;
     }
@@ -814,6 +906,8 @@ AppDelegate *app;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
+    
+    
     return [textField resignFirstResponder];
     
    }
@@ -821,6 +915,7 @@ AppDelegate *app;
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	
     CGRect viewFrame = self.view.frame;
+    self.txt_9th.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
     if ([Constant isiPad]) {
         ;
@@ -879,7 +974,7 @@ AppDelegate *app;
 -(void)formSubmit:(NSString *)location numberOfpeople:(NSString *)noOfpeople purposeOfEvent:(NSString *)event Date:(NSString *)date Require:(NSString *)require OtherRequirements:(NSString *)otherRequirements Name:(NSString *)name Emailaddress:(NSString *)email ConfirmEmail:(NSString *)con_email PhoneNumber:(NSString *)ph_number
 {
     
-    NSString *post = [NSString stringWithFormat:@"Location=%@&NumberOfPeople=%f&purposeOfEvent=%@&Date=%@&Required=%@&OtherRequirements=%@&Name=%@&Emailaddress=%@&ConfirmEmail=%@&PhoneNumber=%@",location,noOfpeople,event,date,require,otherRequirements,name,email,con_email,ph_number];
+    NSString *post = [[NSString stringWithFormat:@"Location=%@&NumberOfPeople=%@&purposeOfEvent=%@&Date=%@&Required=%@&OtherRequirements=%@&Name=%@&Emailaddress=%@&ConfirmEmail=%@&PhoneNumber=%@",location,noOfpeople,event,date,require,otherRequirements,name,email,con_email,ph_number]retain];
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
@@ -900,6 +995,12 @@ AppDelegate *app;
     
     NSLog(@"%@",Content_jsonData);
     
+    if ([Content_jsonData isEqualToString:@"success"]) {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"Successfully send" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
+    NSLog(@"%@",post);   
 }
 
 

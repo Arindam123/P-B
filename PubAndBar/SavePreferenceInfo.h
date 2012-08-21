@@ -11,7 +11,10 @@
 
 @interface SavePreferenceInfo : NSObject
 +(NSMutableArray *)GetFavourites_DetailsInfo;
-+(NSMutableArray *)GetRecentSearch_DetailsInfo;
++(NSMutableArray *)GetRecentHistory_DetailsInfo;
 +(void)RemoveData_Preference_Favourites:(int) pubId;
 +(void)RemoveData_Preference_RecentHistory:(int)pubId;
++(void)RemoveData_Preference_RecentSearch:(int) pubId;
++(NSMutableArray *)GetRecentSearch_DetailsInfo;
+
 @end

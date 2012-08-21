@@ -13,11 +13,11 @@
 
 }
 +(NSMutableArray *)GetSport_CatagoryNameInfo :(NSString *) _radius;
-+(NSMutableArray *)GetEvent_DetailInfo :(NSString *)ID;
++(NSMutableArray *)GetEvent_DetailInfo :(NSString *)ID withRadius:(NSString *) _radius;
 
 +(NSMutableArray *)GetPubDetailsInfo :(NSString *)Date;
 +(NSMutableArray *)GetPubDetailsInfo1;
 +(NSMutableArray *)GetFood_Type :(NSString *) _radius;
-+(NSMutableArray *)GetAmmenity_NameInfo;
++(NSMutableArray *)GetAmmenity_NameInfo:(NSString *) _radius;
 +(NSMutableArray*)getDateEvent:(NSString*)_date isfortonight:(BOOL)_isnight;
 @end

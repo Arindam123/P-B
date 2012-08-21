@@ -44,7 +44,7 @@
     
     for (int i =0; i<[arr4PubID count]; i++) {
         
-        rs = [appDelegate.PubandBar_DB executeQuery:[NSString stringWithFormat:@"select * from RealAle_Detail where Ale_ID=%d",[[[arr4PubID objectAtIndex:i] valueForKey:@"Ale_ID"] intValue]]];
+        rs = [appDelegate.PubandBar_DB executeQuery:[NSString stringWithFormat:@"select * from RealAle_Detail where Ale_ID=%d AND PubID=%d group by Ale_ID",[[[arr4PubID objectAtIndex:i] valueForKey:@"Ale_ID"] intValue],ID]];
         
         
         
@@ -59,6 +59,7 @@
                                           [rs stringForColumn:@"Ale_PhoneNumber"],@"Ale_PhoneNumber",
                                             [rs stringForColumn:@"Ale_District"],@"Ale_District",
                                             [rs stringForColumn:@"Ale_ContactName"],@"Ale_ContactName",
+                                                    [rs stringForColumn:@"Ale_ID"],@"Ale_ID",
                                             nil];
             
             [arr addObject:tempDictionary1];
@@ -76,7 +77,7 @@
     return [arr autorelease];
 }
 
-
+/*
 +(NSMutableArray *)GetAleBeerDetailsInfo:(int)ID
 {
     
@@ -118,12 +119,12 @@
             NSMutableDictionary *tempDictionary1 = [[NSMutableDictionary alloc]initWithObjectsAndKeys:
                                                     [rs stringForColumn:@"Beer_Name"],@"Beer_Name",
                                                     [rs stringForColumn:@"Catagory"],@"Catagory",
-                                                    [rs stringForColumn:@"Beer ABV"],@"Beer ABV",
+                                                    [rs stringForColumn:@"Beer_ABV"],@"Beer_ABV",
                                                     [rs stringForColumn:@"Beer_Color"],@"Beer_Color",
                                                     [rs stringForColumn:@"Beer_Smell"],@"Beer_Smell",
                                                     [rs stringForColumn:@"Beer_Taste"],@"Beer_Taste",
                                                     [rs stringForColumn:@"License_Note"],@"License_Note",
-                                                    [rs stringForColumn:@"Ale_District"],@"Ale_District",
+//                                                    [rs stringForColumn:@"Ale_District"],@"Ale_District",
                                                     nil];
             
             [arr addObject:tempDictionary1];
@@ -141,6 +142,46 @@
     return [arr autorelease];
 }
 
+*/
++(NSMutableArray *)GetAleBeerDetailsInfo:(int)ID withPubID:(int) _pubID
+{
+    
+    AppDelegate *appDelegate;
+    appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+   
+    NSMutableArray *arr = [[NSMutableArray alloc]init];
+    
+    ResultSet *rs;
+    
+    rs = [appDelegate.PubandBar_DB executeQuery:[NSString stringWithFormat:@"select * from Ale_BeerDetail where Ale_ID=%d and PubID=%d group by Beer_ID",ID,_pubID]];
+    
+    NSLog(@"%@  AleID> %d   pubID> %d",rs,ID,_pubID);
+    while ([rs next]) {
+           
+        
+       
+            
+            NSMutableDictionary *tempDictionary1 = [[NSMutableDictionary alloc]initWithObjectsAndKeys:
+                                                    [rs stringForColumn:@"Beer_Name"],@"Beer_Name",
+                                                    [rs stringForColumn:@"Catagory"],@"Catagory",
+                                                    [rs stringForColumn:@"Beer_ABV"],@"Beer_ABV",
+                                                    [rs stringForColumn:@"Beer_Color"],@"Beer_Color",
+                                                    [rs stringForColumn:@"Beer_Smell"],@"Beer_Smell",
+                                                    [rs stringForColumn:@"Beer_Taste"],@"Beer_Taste",
+                                                    [rs stringForColumn:@"License_Note"],@"License_Note",
+                                                  
+                                                    nil];
+            
+            [arr addObject:tempDictionary1];
+            [tempDictionary1 release];
+            
+            
+        }
+      
+        
+    return [arr autorelease];
+}
 
 
 

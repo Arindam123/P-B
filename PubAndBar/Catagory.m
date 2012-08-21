@@ -88,11 +88,11 @@ BOOL addedDone=NO;
 #pragma mark - View lifecycle
 
 /*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView
- {
- }
- */
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView
+{
+}
+*/
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -101,8 +101,8 @@ BOOL addedDone=NO;
     [super viewDidLoad];
     deletedDataCall = NO;
     
-    
-    // delegate.ismore=NO;
+     
+   // delegate.ismore=NO;
     NSLog(@"RADIUS   %@",searchRadius );
     
     if ([Name isEqualToString:@"Regular"] || [Name isEqualToString:@"One Off" ] || [Name isEqualToString:@"Theme Nights" ] || [Name isEqualToString:@"What's On Next 7 Days" ] || [Name isEqualToString:@"What's On Tonight..." ]) {
@@ -133,8 +133,8 @@ BOOL addedDone=NO;
         }
         //------------------------------------------------------//
     }
-    
-    
+
+
     if([Name isEqualToString:@"Sports on TV"]){
         catagoryArray = [[NSMutableArray alloc]init];
         catagoryArray = [[SaveCatagoryInfo GetSport_CatagoryNameInfo:searchRadius] retain];            
@@ -207,29 +207,29 @@ BOOL addedDone=NO;
     
     //-----------------------------------mb----------------------------//
     if ([catagoryArray count]==0) {
-        
-        
+   
+   
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Pub & Bar Network" message:@"No Venues Found! Please Try Again......" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
-        
+       
     }
-    /*  else
-     {
-     NSSortDescriptor *aSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:YES comparator:^(id obj1, id obj2) {
-     
-     if ([obj1 integerValue] > [obj2 integerValue]) {
-     return (NSComparisonResult)NSOrderedDescending;
-     }
-     if ([obj1 integerValue] < [obj2 integerValue]) {
-     return (NSComparisonResult)NSOrderedAscending;
-     }
-     return (NSComparisonResult)NSOrderedSame;
-     }];
-     
-     NSArray *sortedArray= [catagoryArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
-     }*/
-    [self CreateView];
+  /*  else
+    {
+        NSSortDescriptor *aSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:YES comparator:^(id obj1, id obj2) {
+            
+            if ([obj1 integerValue] > [obj2 integerValue]) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            if ([obj1 integerValue] < [obj2 integerValue]) {
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        
+        NSArray *sortedArray= [catagoryArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
+    }*/
+         [self CreateView];
     //----------------------------------------------------------------//
 }
 
@@ -239,12 +239,12 @@ BOOL addedDone=NO;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==0) 
-        [self.navigationController popViewControllerAnimated:YES];
+         [self.navigationController popViewControllerAnimated:YES];
 }
 //------------------------------------------------------------//
 -(void)CreateView{
     
-    
+   
     
     table_catagory = [[UITableView alloc]init];
     //table_catagory.frame=CGRectMake(0, 44, 320, 315);
@@ -259,7 +259,7 @@ BOOL addedDone=NO;
     [backButton addTarget:self action:@selector(ClickBack:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
     [backButton setImage:[UIImage imageNamed:@"BackSelect.png"] forState:UIControlStateHighlighted];
-    
+
     
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont systemFontOfSize:10];
@@ -271,25 +271,25 @@ BOOL addedDone=NO;
     
     lbl_heading = [[UILabel alloc]init];
     lbl_heading.backgroundColor=[UIColor clearColor];
-    // lbl_heading.backgroundColor=[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
+   // lbl_heading.backgroundColor=[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
     lbl_heading.textColor = [UIColor whiteColor];
     lbl_heading.font = [UIFont boldSystemFontOfSize:13];
     lbl_heading.textAlignment=UITextAlignmentCenter;
     if([Name isEqualToString: @"Sports on TV" ]){
-        lbl_heading.text = @"Choose a Sport";
-        // lbl_heading.backgroundColor = [UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];   
+    lbl_heading.text = @"Choose a Sport";
+    // lbl_heading.backgroundColor = [UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];   
     }
     else if([Name isEqualToString:@"Food & Offers" ]){
-        lbl_heading.text = @"Choose a Food";
+    lbl_heading.text = @"Choose a Food";
         lbl_heading.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];    
     }
     //------------------------mb-25/05/12/5-45---------------------//
     else if([Name isEqualToString:@"Facilities" ]){
         lbl_heading.text = @"Amenities";
-        // lbl_heading.backgroundColor = [UIColor clearColor];
+       // lbl_heading.backgroundColor = [UIColor clearColor];
     }
     //----------------------------------------------//
-    
+
     else if([Name isEqualToString:@"Regular"]){
         lbl_heading.text = @"Choose a Regular Event";
         //lbl_heading.backgroundColor = [UIColor clearColor];
@@ -305,7 +305,7 @@ BOOL addedDone=NO;
         //lbl_heading.backgroundColor = [UIColor clearColor];
     }
     else if([Name isEqualToString:@"What's On Tonight..." ]){
-        lbl_heading.text = @"What's On Tonight";
+         lbl_heading.text = @"What's On Tonight";
         lbl_heading.textColor = [UIColor greenColor];
         lbl_heading.backgroundColor = [UIColor clearColor];
         NSDate *date = [NSDate date]; 
@@ -318,11 +318,19 @@ BOOL addedDone=NO;
         NSLog(@"%@",tempdateString);
         datelbl.text = tempdateString;
         [df release];
-        str_RefName=@"Events";
-    }
+                  }
     else if([Name isEqualToString:@"What's On Next 7 Days" ]){
         lbl_heading.text = @"What's On Next 7 Days";
-        str_RefName=@"Events";
+        //lbl_heading.textColor = [UIColor greenColor];
+        //lbl_heading.backgroundColor = [UIColor clearColor];
+      /*  NSDate *date = [NSDate date];         
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateStyle:NSDateFormatterLongStyle]; 
+        [df setTimeStyle:NSDateFormatterNoStyle];         
+        NSString *tempdateString = [df stringFromDate:date]; 
+        NSLog(@"%@",tempdateString);
+        datelbl.text = tempdateString;
+        [df release];*/
     }
     
     [self setCatagoryViewFrame];
@@ -343,58 +351,22 @@ BOOL addedDone=NO;
 }
 
 -(void) callingServer
-{    
+{    // && [InternetValidation hasConnectivity]
     if([InternetValidation  checkNetworkStatus])
     {
-         if(!([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ])){
-        
-        str_RefName =Name;
-         }
-        
-        if([Name isEqualToString:@"Regular"]||[Name isEqualToString:@"One Off" ]){
-            
-            
-            
-            str_RefName=@"Events";
-        }
-        
-        NSLog(@"%@",str_RefName);
-        
-        
+        str_RefName =[NSString stringWithFormat:@"Food & Offers"];
+        //if (![delegate.sharedDefaults objectForKey:@"Food"])
+        //{
+        // [self performSelector:@selector(addMBHud)];
         ServerConnection *conn1 = [[ServerConnection alloc] init];
         [conn1 setServerDelegate:self];
-        
-        if([str_RefName isEqualToString:@"Food & Offers" ]){
-            
-            [conn1 getFoodandOffersData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
-            
-        }
-        
-        else if([str_RefName isEqualToString:@"Sports on TV"]){
-            
-            [conn1 getSportsData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
-        }
-        
-        
-        else if([str_RefName isEqualToString:@"Facilities" ]){
-            [conn1 getEventsData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];             
-        }
-        
-        
-        else if([str_RefName isEqualToString:@"Events"]){
-            [conn1 geteventsData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
-        }
-        
-        else if([str_RefName isEqualToString:@"Theme Nights" ]){
-            [conn1 getThmeNightData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
-        }
-        
+        [conn1 getFoodandOffersData:[[DBFunctionality sharedInstance]GetlastupdatedDateandTimefromPubDetails]];
         [conn1 passInformationFromTheClass:self afterSuccessfulConnection:@selector(afterSuccessfulConnection:) afterFailourConnection:@selector(afterFailourConnection:)];
         [conn1 release];
     }
     else
     {
-        
+        //[self performSelector:@selector(dismissHUD:)];
         UIAlertView   *alert =[[UIAlertView  alloc] initWithTitle:@"Pub & Bar Network" message:@"Internet Connection is Unavailable." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         alert.tag = 30;
         [alert  show];
@@ -411,14 +383,17 @@ BOOL addedDone=NO;
             //SBJsonParser *parser = [[SBJsonParser alloc] init];
             NSDictionary *json = [data_Response JSONValue];
             
+            //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message for Food & Offers" message:timeString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            //        [alert show];
+            //        [alert release];
             
             NSMutableArray *foodAndOfferArray = [[[json valueForKey:@"Details"] valueForKey:@"Food & Offers Details"] retain];
             //[parser release];
             
-            
+            //-----------------------------mb-----------------------------//
             if ([foodAndOfferArray count]!=0)
             {
-                
+                //NSLog(@"ARRAY   %d",[foodAndOfferArray count]);
                 for (int i = 0; i<[foodAndOfferArray count]; i++)
                 {
                     
@@ -428,6 +403,13 @@ BOOL addedDone=NO;
                     
                     for (int j = 0; j<[pubInfoArray count]; j++)
                     {
+                        
+                        //NSLog(@"%@",currentPoint);
+                        //NSLog(@"Lat  %f   Long  %f",currentPoint.coordinate.latitude,currentPoint.coordinate.longitude);
+                        //appDelegate.currentPoint.coordinate.latitude
+                        //appDelegate.currentPoint.coordinate.longitude
+                        
+                        //    double distance = [self calculateDistance:[[[pubInfoArray objectAtIndex:j] valueForKey:@"Latitude"] doubleValue] andLongitude:[[[pubInfoArray objectAtIndex:j] valueForKey:@"Longitude"] doubleValue]];
                         
                         
                         [[DBFunctionality sharedInstance] InsertValue_Food_Detail:[[[pubInfoArray objectAtIndex:j] valueForKey:@"pubId"] intValue] withFoodID:[[[foodAndOfferArray objectAtIndex:i] valueForKey:@"Food Id"] intValue] pubDistance:0.0];//distance/1000
@@ -445,759 +427,85 @@ BOOL addedDone=NO;
             [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
             [self deletedDataCalling:5];
             
-        }
-       else if ([str_RefName isEqualToString:@"Events"]) 
-        {
-            NSDictionary *json = [data_Response JSONValue];
             
             
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        NSString *Str_EventName = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Name"];
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            
-                            
-                            [[DBFunctionality sharedInstance] InsertIntoEventDetailsWithEventID:EventId Name:Str_EventName EventTypeID:EventTypeID PubID:pubid PubDistance:0.0 creationdate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"createDate"] eventDay:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDay"] expiryDate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"expiryDate"]];//_distance/1000
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:pubid withName:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"]  longitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"venuePhoto"]];//_distance/1000
-                            
-                        }
-                    }
-                }
-            }
-            
-            [Arr_events release];
-            
-            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-            
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-                str_RefName=@"Theme Nights";
-                [self callingServer];
-                
-            }
-            else{
-            [self deletedDataCalling:0];
-            [self deletedDataCalling:2];
-            }
+            /*else
+             {
+             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Food and Offers" message:@"NO Data Found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+             //[alert show];
+             [alert release];
+             }*/
             
         }
-        
-       else if ([str_RefName isEqualToString:@"Theme Nights"]) 
-        {
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            
-            if ([Arr_events count] != 0) {
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        NSString *Str_EventName = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Name"];
-                        // NSLog(@"%d",EventId);
-                        //NSLog(@"%@",Str_EventName);
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            
-                            
-                            if ([[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"] != nil || [[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] != nil){ 
-                                
-                            }
-                            
-                            NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
-                            [dateFormat setDateFormat:@"yyyy-MM-dd"];
-                            //[dateFormat setLocale:[NSLocale currentLocale]];
-                            NSDate *tempDate = [dateFormat dateFromString:[NSString stringWithFormat:@"%@",[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"]]];
-                            
-                            NSDateFormatter *dateFormat2 = [[[NSDateFormatter alloc] init] autorelease];
-                            [dateFormat2 setDateFormat:@"EEE"];
-                            
-                            NSString *dateString1 = [[dateFormat2 stringFromDate:tempDate] uppercaseString]; 
-                            
-                            //NSLog(@"%@",dateString);
-                            
-                            [[DBFunctionality sharedInstance] InsertIntoEventDetailsWithEventID:EventId Name:Str_EventName EventTypeID:EventTypeID PubID:pubid PubDistance:0.0 creationdate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"] eventDay:dateString1 expiryDate:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"eventDate"]];//_distance/1000
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:pubid withName:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Latitude"]  longitude:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[Arr_PubInfo objectAtIndex:k] valueForKey:@"venuePhoto"]];//_distance/1000
-                            
-                        }
-                    }
-                }
-            }
-            [Arr_events release];
-            
-            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-           
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-                str_RefName=@"Sports on TV";
-                [self callingServer];
-                
-            }
-            else{
-                [self deletedDataCalling:1];
-            }
-
-                   
-        }
-        
-        
-       else if([str_RefName isEqualToString:@"Real Ale"])
-        {
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            NSMutableArray *realAleArray = [[[json valueForKey:@"Details"] valueForKey:@"Brewery Details"] retain];
-            
-            
-            if ([realAleArray count] !=0) {
-                
-                for (int i = 0; i<[realAleArray count]; i++) {
-                    
-                    
-                    
-                    NSMutableArray *beerDetailsArray = [[[realAleArray objectAtIndex:i] valueForKey:@"Beer Details"] retain];
-                    
-                    for (int j = 0; j<[beerDetailsArray count]; j++) {
-                        
-                        
-                        NSMutableArray *pubDetailsArray = [[[beerDetailsArray objectAtIndex:j] valueForKey:@"Pub Information"] retain];
-                        
-                        
-                        for (int k = 0; k< [pubDetailsArray count]; k++) {
-                            
-                            
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_RealAle_Type:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withName:[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Name"] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] pubDistance:0.0];//distance/1000
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Beer_Detail:[[[beerDetailsArray objectAtIndex:j] valueForKey:@"Beer ID"] intValue] withBreweryID:[[[realAleArray objectAtIndex:i] valueForKey:@"Brewery Id"] intValue] withPubID:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withBeerName:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Ale Name"] withBeerCategory:[[beerDetailsArray objectAtIndex:j] valueForKey:@"Category"] pubDistance:0.0];//distance/1000
-                            
-                            
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubDetailsArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubDetailsArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubDetailsArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000 
-                        }
-                        [pubDetailsArray release];
-                    }
-                    
-                    [beerDetailsArray release];
-                }
-                
-                
-            }
-            [realAleArray release];
-            
-            
-            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-            [self deletedDataCalling:4];
-            
-        }
-        
-        //----------------------mb-25/05/12/5-45p.m.------------------------//
-        else if([str_RefName  isEqualToString:@"Facilities"])
-        {
-            NSDictionary *json = [data_Response JSONValue];
-            
-            NSMutableArray *AmenitiesArray = [[[json valueForKey:@"Details"] valueForKey:@"Amenities Details"] retain];
-            
-            if ([AmenitiesArray count] != 0) {
-                
-                for (int i = 0; i<[AmenitiesArray count]; i++) {
-                    
-                    [[DBFunctionality sharedInstance] InsertValue_Amenities_Type:i+1 withName:[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"]];
-                    
-                    //NSLog(@"facilityDetailsArray  %d",[facilityDetailsArray count]);
-                    
-                    if ([[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"] isEqualToString:@"Facilities"]) {
-                        NSMutableArray *facilityDetailsArray = [[[AmenitiesArray objectAtIndex:i] valueForKey:@"Facility Details"] retain];
-                        
-                        NSLog(@"Ammenity name  %@",[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"]);
-                        for (int j = 0; j<[facilityDetailsArray count]; j++) {
-                            
-                            NSMutableArray *pubInfoArray=[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Pub Information"]retain];
-                            //NSLog(@"pubInfoArray  %d",[pubInfoArray count]);
-                            
-                            for (int k=0; k<[pubInfoArray count]; k++) {
-                                
-                                
-                                
-                                [[DBFunctionality sharedInstance]InsertValue_Amenities_Detail:i+1  ammenity_TypeID:[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Facility ID"]intValue] facility_Name:[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Facility Name"] PubID:[[[pubInfoArray objectAtIndex:k]valueForKey:@"pubId"]intValue] withPubDistance:0.0 ];//distance/1000
-                                
-                                [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubInfoArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubInfoArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubInfoArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000
-                            }
-                            
-                            [pubInfoArray release];
-                        }
-                        [facilityDetailsArray release];
-                        
-                    }
-                    
-                    
-                    if ([[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"] isEqualToString:@"Style(s)"]) {
-                        
-                        NSMutableArray *facilityDetailsArray = [[[AmenitiesArray objectAtIndex:i] valueForKey:@"Style Details"] retain];
-                        NSLog(@"Ammenity name  %@",[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"]);
-                        
-                        for (int j = 0; j<[facilityDetailsArray count]; j++) {
-                            
-                            NSMutableArray *pubInfoArray=[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Pub Information"]retain];
-                            
-                            
-                            for (int k=0; k<[pubInfoArray count]; k++) {
-                                
-                                
-                                
-                                [[DBFunctionality sharedInstance]InsertValue_Amenities_Detail:i+1  ammenity_TypeID:[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Style ID"]intValue] facility_Name:[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Style Name"] PubID:[[[pubInfoArray objectAtIndex:k]valueForKey:@"pubId"]intValue] withPubDistance:0.0 ];//distance/1000
-                                
-                                [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubInfoArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubInfoArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubInfoArray objectAtIndex:k] valueForKey:@"venuePhoto"]];
-                            }
-                            
-                            [pubInfoArray release];
-                        }
-                        [facilityDetailsArray release];
-                    }
-                    
-                    if ([[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"] isEqualToString:@"Features"]) {
-                        
-                        NSMutableArray *facilityDetailsArray = [[[AmenitiesArray objectAtIndex:i] valueForKey:@"Features Details"] retain];
-                        
-                        
-                        NSLog(@"Ammenity name  %@",[[AmenitiesArray objectAtIndex:i] valueForKey:@"Amenity Name"]);
-                        
-                        for (int j = 0; j<[facilityDetailsArray count]; j++) {
-                            
-                            NSMutableArray *pubInfoArray=[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Pub Information"]retain];
-                            //NSLog(@"pubInfoArray  %d",[pubInfoArray count]);
-                            
-                            for (int k=0; k<[pubInfoArray count]; k++) {
-                                
-                                
-                                
-                                
-                                
-                                [[DBFunctionality sharedInstance]InsertValue_Amenities_Detail:i+1  ammenity_TypeID:[[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Features ID"]intValue] facility_Name:[[facilityDetailsArray objectAtIndex:j]valueForKey:@"Features Name"] PubID:[[[pubInfoArray objectAtIndex:k]valueForKey:@"pubId"]intValue] withPubDistance:0.0 ];//distance/1000
-                                
-                                [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubInfoArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubInfoArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubInfoArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000
-                            }
-                            
-                            [pubInfoArray release];
-                        }
-                        [facilityDetailsArray release];
-                    }
-                    
-                    
-                }
-            }
-            [AmenitiesArray release];
-            
-            
-            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-            [self deletedDataCalling:6];
-            
-        }
-        //-----------------------------5-45------------------------//
-        
-        //NSLog(@"ARRAY   %d",[foodAndOfferArray count]);
-        
-        else if([str_RefName  isEqualToString:@"Sports on TV"])
-        {
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *sportsArray = [[[json valueForKey:@"Details"] valueForKey:@"Sports Details"] retain];
-            
-            if ([sportsArray count] != 0) {
-                
-                for (int i = 0; i<[sportsArray count]; i++) {
-                    
-                    [[DBFunctionality sharedInstance] InsertValue_Sports_Type:[[[sportsArray objectAtIndex:i] valueForKey:@"SportsID"] intValue] withName:[[sportsArray objectAtIndex:i] valueForKey:@"Category Name"]];
-                    
-                    NSMutableArray *sportDetailsArray = [[[sportsArray objectAtIndex:i] valueForKey:@"event"] retain];
-                    //NSLog(@"sportDetailsArray  %d",[sportDetailsArray count]);
-                    
-                    for (int j = 0; j<[sportDetailsArray count]; j++) {
-                        
-                        NSMutableArray *pubInfoArray=[[[sportDetailsArray objectAtIndex:j]valueForKey:@"Pub Information"]retain];
-                        
-                        for (int k=0; k<[pubInfoArray count]; k++) {
-                            
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Sports_Detail:[[[sportDetailsArray objectAtIndex:j] valueForKey:@"eventID"] intValue] sport_TypeID:[[[sportsArray objectAtIndex:i] valueForKey:@"SportsID"] intValue] event_Name:[[sportDetailsArray objectAtIndex:j] valueForKey:@"eventName"] event_Description:[[sportDetailsArray objectAtIndex:j] valueForKey:@"eventDescription"] event_Date:[[sportDetailsArray objectAtIndex:j] valueForKey:@"DateShow"] event_Channel:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Channel"] reservation:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Reservation"] sound:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Sound"] hd:[[sportDetailsArray objectAtIndex:j] valueForKey:@"HD"] threeD:[[sportDetailsArray objectAtIndex:j] valueForKey:@"threeD"] screen:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Screen"] PubID:[[[pubInfoArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withPubDistance:0.0 event_Time:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Time"] event_Type:[[sportDetailsArray objectAtIndex:j] valueForKey:@"Type"]];//distance/1000
-                            
-                            
-                            
-                            [[DBFunctionality sharedInstance] InsertValue_Pub_Info:[[[pubInfoArray objectAtIndex:k] valueForKey:@"pubId"] intValue] withName:[[pubInfoArray objectAtIndex:k] valueForKey:@"Name"] distance:0.0 latitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Latitude"] longitude:[[pubInfoArray objectAtIndex:k] valueForKey:@"Longitude"] postCode:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubPostcode"] district:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubDistrict"] city:[[pubInfoArray objectAtIndex:k] valueForKey:@"pubCity"] lastUpdatedDate:(NSString *)[NSDate date] pubPhoto:[[pubInfoArray objectAtIndex:k] valueForKey:@"venuePhoto"]];//distance/1000
-                        }
-                        
-                        [pubInfoArray release];
-                    }
-                    [sportDetailsArray release];
-                }
-            }
-            
-            [sportsArray release];
-            
-            [[DBFunctionality sharedInstance] UpdatelastUadeField_PubDetails];
-           
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-                deletedDataCall = YES;
-                [self deletedDataCalling:0];
-                
-            }
-            else{
-                [self deletedDataCalling:3];
-           
-                       
-            }
-        
-       }
     }
     else
     {
-        if ([deletedEventString isEqualToString:@"FoodDeleted"])
-        {
+        if ([deletedEventString isEqualToString:@"FoodDeleted"]) {
             
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Food Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
+            {
+                NSDictionary *json = [data_Response JSONValue];
                 
-                for (int i = 0; i < [Arr_events count]; i++) {
+                
+                NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Food Details"] retain];
+                NSLog(@"%d",[Arr_events count]);
+                
+                if ([Arr_events count] != 0) {
                     
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
+                    for (int i = 0; i < [Arr_events count]; i++) {
                         
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"FoodID"] intValue];
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                        NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
+                        //NSLog(@"%@",Str_Event);
+                        NSString *EventTypeID;
                         
                         
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                        
+                        NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
+                        //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
+                        
+                        for (int j = 0; j < [Arr_EventDetails count]; j++) {
                             
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                            int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"FoodID"] intValue];
+                            // NSLog(@"%d",EventId);
+                            //NSLog(@"%@",Str_EventName);
                             
-                            [[DBFunctionality4Delete sharedInstance] deleteFoods:pubid andEventID:EventId];
+                            NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
+                            //NSLog(@"%d",[Arr_PubInfo count]);
                             
-                            
+                            for (int k = 0; k < [Arr_PubInfo count]; k++) {
+                                
+                                // NSLog(@"%@",[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"]);
+                                // NSLog(@"%@",[[Arr_PubInfo objectAtIndex:k] valueForKey:@"latitude"]);
+                                int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
+                                
+                                [[DBFunctionality4Delete sharedInstance] deleteFoods:pubid andEventID:EventId];
+                                
+                                
+                            }
+                            //[Arr_PubInfo release];
                         }
-                        
+                        //[Arr_EventDetails release];
                     }
-                    
+                    //[Arr_events release];
                 }
                 
-            }
-            
-            
-        }
-        
-        else if ([deletedEventString isEqualToString:@"EventsDeleted"]) {
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                [[DBFunctionality4Delete sharedInstance] deleteRegularEvents:[[json valueForKey:@"Details"] valueForKey:@"Non Active Events"]];
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            [[DBFunctionality4Delete sharedInstance] deleteEvents:pubid andEventID:EventId];
-                            
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-            [self deletedDataCalling:1];
+                //[Arr_events release];
+                //sleep(2);
+                //deletedDataCall = NO;
+                //[self performSelector:@selector(doneLoadingTableViewData)];	
+                //  [self performSelector:@selector(dismissHUD:)];
             }
         }
         
-        else if ([deletedEventString isEqualToString:@"ThemeNightDeleted"]) {
-            
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                [[DBFunctionality4Delete sharedInstance] deleteThemenightEvents:[[json valueForKey:@"Details"] valueForKey:@"Active Theme"]];
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        // NSLog(@"%d",EventId);
-                        //NSLog(@"%@",Str_EventName);
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            [[DBFunctionality4Delete sharedInstance] deleteEvents:pubid andEventID:EventId];
-                            
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-            
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-                [self deletedDataCalling:2];
-            }
-
-        }
         
         
-        else if ([deletedEventString isEqualToString:@"OneOffDeleted"]) {
-            
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                [[DBFunctionality4Delete sharedInstance] deleteOneOffEvents:[[json valueForKey:@"Details"] valueForKey:@"Non Active Events"]];
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        // NSLog(@"%d",EventId);
-                        //NSLog(@"%@",Str_EventName);
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            [[DBFunctionality4Delete sharedInstance] deleteEvents:pubid andEventID:EventId];
-                            
-                            
-                        }
-                        
-                    }
-                    
-                }
-            }
-            if([Name isEqualToString:@"What's On Tonight..." ]||[Name isEqualToString:@"What's On Next 7 Days" ]){
-                [self deletedDataCalling:3];
-            }
-
-        }
-        
-        
-        else if ([deletedEventString isEqualToString:@"SportsDeleted"]) {
-            
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                NSMutableArray *sportsIDArray = [[NSMutableArray alloc] init];
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"sportID"] intValue];
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            [[DBFunctionality4Delete sharedInstance] deleteSports:pubid andEventID:EventId];
-                            
-                            [sportsIDArray addObject:[NSString stringWithFormat:@"%d",EventId]];
-                        }
-                        //[Arr_PubInfo release];
-                    }
-                    //[Arr_EventDetails release];
-                }
-                
-                [[DBFunctionality4Delete sharedInstance] deleteSports:sportsIDArray];
-            }
-            
-            
-        }
-        
-        else if ([deletedEventString isEqualToString:@"RealAleDeleted"]) {
-            
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Event Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                [[DBFunctionality4Delete sharedInstance] deleteRealAle:[[json valueForKey:@"Details"] valueForKey:@"Non Active Ales"]];
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    //NSLog(@"%@",[[Arr_events objectAtIndex:i] valueForKey:@"Event Name"]);
-                    NSString *Str_Event = [[Arr_events objectAtIndex:i] valueForKey:@"Event Name"];
-                    //NSLog(@"%@",Str_Event);
-                    NSString *EventTypeID;
-                    
-                    if ([Str_Event isEqualToString:@"RegularEvent"])
-                        EventTypeID = @"1";
-                    else if([Str_Event isEqualToString:@"OneOffEvent"])
-                        EventTypeID = @"2";
-                    else if([Str_Event isEqualToString:@"ThemeNight"])
-                        EventTypeID = @"3";
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    //NSLog(@"Arr_EventDetails : %d",[Arr_EventDetails count]);
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"EventID"] intValue];
-                        
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        //NSLog(@"%d",[Arr_PubInfo count]);
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            
-                            [[DBFunctionality4Delete sharedInstance] deleteRealAle:pubid andEventID:EventId];
-                            
-                            
-                        }
-                    }
-                    
-                }
-            }
-            
-        }
-        
-        
-        else if ([deletedEventString isEqualToString:@"FacilityDeleted"]) {
-            
-            
-            NSDictionary *json = [data_Response JSONValue];
-            
-            
-            NSMutableArray *Arr_events = [[[json valueForKey:@"Details"] valueForKey:@"Facility Details"] retain];
-            NSLog(@"%d",[Arr_events count]);
-            
-            if ([Arr_events count] != 0) {
-                
-                int EventTypeID;
-                if ([[[Arr_events objectAtIndex:0] valueForKey:@"Event Name"] isEqualToString:@"Facility"])
-                    EventTypeID = 1;
-                else if([[[Arr_events objectAtIndex:1] valueForKey:@"Event Name"] isEqualToString:@"Style"])
-                    EventTypeID = 2;
-                else if([[[Arr_events objectAtIndex:2] valueForKey:@"Event Name"] isEqualToString:@"Features"])
-                    EventTypeID = 3;
-                
-                for (int i = 0; i < [Arr_events count]; i++) {
-                    
-                    
-                    NSMutableArray *Arr_EventDetails = [[Arr_events objectAtIndex:i] valueForKey:@"Event Details"];
-                    
-                    
-                    for (int j = 0; j < [Arr_EventDetails count]; j++) {
-                        
-                        int EventId = [[[Arr_EventDetails objectAtIndex:j] valueForKey:@"FacilityID"] intValue];
-                        
-                        
-                        NSMutableArray *Arr_PubInfo = [[Arr_EventDetails objectAtIndex:j] valueForKey:@"Pub Information"];
-                        
-                        for (int k = 0; k < [Arr_PubInfo count]; k++) {
-                            
-                            
-                            int pubid = [[[Arr_PubInfo objectAtIndex:k] valueForKey:@"pubId"] intValue];
-                            [[DBFunctionality4Delete sharedInstance] deleteFacilities:pubid andEventID:EventId facilityID:EventTypeID];
-                            
-                            
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-            
-        }
-        
-        //if(![Name isEqualToString:@"What's On Tonight..."] || ![Name isEqualToString:@"What's On Next 7 Days" ]){
-            deletedDataCall = NO;
-            [self performSelector:@selector(myThreadMainMethod:) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
-            
-            [self performSelector:@selector(updateDB) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];    
-            [self performSelector:@selector(doneLoadingTableViewData)];
-        //}
-        
-        
-
+        deletedDataCall = NO;
+        [self performSelector:@selector(updateDB) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(doneLoadingTableViewData)];
+        [NSThread detachNewThreadSelector:@selector(myThreadMainMethod:) toTarget:self withObject:nil];
     }
     
 }
+
 
 -(void) updateDB
 {
@@ -1206,28 +514,6 @@ BOOL addedDone=NO;
         catagoryArray = [[SaveCatagoryInfo GetFood_Type:searchRadius]retain]; 
         NSLog(@"catagoryArray   %@",catagoryArray);
     }
-    
-    if([Name isEqualToString:@"Sports on TV"]){
-        [catagoryArray removeAllObjects];
-        catagoryArray = [[SaveCatagoryInfo GetSport_CatagoryNameInfo:searchRadius] retain];            
-    }
-    else if([Name isEqualToString:@"Facilities" ]){
-        [catagoryArray removeAllObjects];
-        catagoryArray = [[SaveCatagoryInfo GetAmmenity_NameInfo:searchRadius]retain]; 
-    }
-    else if([Name isEqualToString:@"Regular"]){
-        [catagoryArray removeAllObjects];
-        catagoryArray = [[SaveCatagoryInfo GetEvent_DetailInfo:eventID withRadius:searchRadius]retain];  
-    }
-    else if([Name isEqualToString:@"One Off" ]){
-        [catagoryArray removeAllObjects];
-        catagoryArray = [[SaveCatagoryInfo GetEvent_DetailInfo:eventID withRadius:searchRadius]retain]; 
-    }
-    else if([Name isEqualToString:@"Theme Nights" ]){
-        [catagoryArray removeAllObjects];
-        catagoryArray = [[SaveCatagoryInfo GetEvent_DetailInfo:eventID withRadius:searchRadius]retain]; 
-    }
-    
 }
 
 
@@ -1445,8 +731,8 @@ BOOL addedDone=NO;
 
 -(IBAction)ClickBack:(id)sender{
     
-    
-    // delegate.ismore=NO;
+
+   // delegate.ismore=NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1464,39 +750,39 @@ BOOL addedDone=NO;
             lbl_heading.frame = CGRectMake(90, 89, 160, 27);
             backButton.frame = CGRectMake(8, 90, 50, 25);
             datelbl.frame = CGRectMake(238, 58, 125, 27);
-            // vw1.frame =CGRectMake(10, 59, 300, 1);
+           // vw1.frame =CGRectMake(10, 59, 300, 1);
             
             if (delegate.ismore==YES) {
                 //toolBar.frame = CGRectMake(-320, 387, 640, 48);
                 
                 toolBar.frame = CGRectMake(8.5, 421, 303, 53);
-                
+               
             }
             else{
                 
                 //toolBar.frame = CGRectMake(0, 387, 640, 48);01
                 toolBar.frame = CGRectMake(8.5, 421, 303, 53);
             }
-            
+                        
             
         }
         
         else{
             table_catagory.frame=CGRectMake(10, 115, 460, 141);
             lbl_heading.frame = CGRectMake(110, 90, 240, 27); 
-            backButton.frame = CGRectMake(20, 85, 50, 25);
+             backButton.frame = CGRectMake(20, 85, 50, 25);
             datelbl.frame = CGRectMake(398, 51, 125, 27);
-            // vw1.frame =CGRectMake(10, 59, 460, 1);
+           // vw1.frame =CGRectMake(10, 59, 460, 1);
             
             if (delegate.ismore==YES) {
                 toolBar.frame = CGRectMake(8.5, 261, 463, 53);
             }
             else{
-                toolBar.frame = CGRectMake(8.5, 261, 463, 53);
+               toolBar.frame = CGRectMake(8.5, 261, 463, 53);
             }
             
             [table_catagory reloadData];
-            
+
         }
     }
 }
@@ -1508,15 +794,15 @@ BOOL addedDone=NO;
     [self SetCustomNavBarFrame];
     [self setCatagoryViewFrame];
     
-    [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
-    // delegate.ismore=NO;
+ [backButton setImage:[UIImage imageNamed:@"BackDeselect.png"] forState:UIControlStateNormal];
+   // delegate.ismore=NO;
     
     self.navigationController.navigationBarHidden=YES;
     //[navBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[Constant GetImageName:@"TopBar"]]]];
     [self SetCustomNavBarFrame];
     [self setCatagoryViewFrame];
     [self AddNotification];
-    
+
     
 }
 
@@ -1534,24 +820,24 @@ BOOL addedDone=NO;
 - (void)ShareInTwitter:(NSNotification *)notification {
     TwitterViewController *obj = [[TwitterViewController alloc] initWithNibName:@"TwitterViewController" bundle:nil];
     
-    
+   
     
     
     if ([Name isEqualToString:@"Sports on TV"]){
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/sportspubs-sportsbars.html"];
-        tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        tempurl = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@",tempurl];
-        
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:tempurl]];
-        [request startSynchronous];
-        NSError *error = [request error];
-        if (!error) {
-            NSString *response = [request responseString];
-            tempurl = response;
-        }
-        
-        
+    tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
+    tempurl = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@",tempurl];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:tempurl]];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) {
+        NSString *response = [request responseString];
+        tempurl = response;
+    }
+    
+
         
         
         obj.textString=[NSString stringWithFormat:@"Pubs and Bars showing sports %@",tempurl];
@@ -1576,17 +862,17 @@ BOOL addedDone=NO;
         
         
         obj.textString=[NSString stringWithFormat:@"Pubs and Bars available Foods %@",tempurl];
+
+
         
-        
-        
-        
+       
         
     }
     
     
     else if ([Name isEqualToString:@"What's On Next 7 Days"] || [Name isEqualToString:@"What's On Tonight..."]){
         
-        
+       
         
         obj.textString=[NSString stringWithFormat:@"Check out this great FREE app and search facility for finding pubs and bars” http://tinyurl.com/dxzhhto"];
         
@@ -1594,7 +880,7 @@ BOOL addedDone=NO;
     
     else if ([Name isEqualToString:@"Theme Nights" ]){
         
-        
+      
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/pubs_and_bars-theme_nights.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
         tempurl = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@",tempurl];
@@ -1607,7 +893,7 @@ BOOL addedDone=NO;
             tempurl = response;
         }
         
-        
+
         
         
         obj.textString=[NSString stringWithFormat:@"Pubs and Bars showing Theme Night Events %@",tempurl];
@@ -1628,7 +914,7 @@ BOOL addedDone=NO;
             NSString *response = [request responseString];
             tempurl = response;
         }
-        
+
         
         obj.textString=[NSString stringWithFormat: @"Pubs and Bars showing One Off Events %@",tempurl];
         
@@ -1638,7 +924,7 @@ BOOL addedDone=NO;
     
     else if ([Name isEqualToString:@"Regular"]){
         
-        
+      
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/nightlife_pubs-bars.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
         tempurl = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@",tempurl];
@@ -1650,7 +936,7 @@ BOOL addedDone=NO;
             NSString *response = [request responseString];
             tempurl = response;
         }
-        
+
         
         obj.textString=[NSString stringWithFormat: @"Pubs and Bars showing Regular Events %@",tempurl];
         
@@ -1669,14 +955,14 @@ BOOL addedDone=NO;
             NSString *response = [request responseString];
             tempurl = response;
         }
-        
+
         
         obj.textString=[NSString stringWithFormat: @"Pubs and Bars showing Amenities %@",tempurl];
         
     }
+
     
-    
-    
+       
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
     [self presentModalViewController:nav animated:YES];
     [obj release];
@@ -1729,7 +1015,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/sportspubs-sportsbars.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+                
         
         
         
@@ -1741,7 +1027,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/barfood-gastropubs.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+               
         
         fb_str=[NSString stringWithFormat:@"Pubs and Bars available Foods %@",tempurl];
         
@@ -1765,7 +1051,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/pubs_and_bars-theme_nights.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+                
         
         
         fb_str=[NSString stringWithFormat:@"Pubs and Bars showing Theme Night Events %@",tempurl];
@@ -1777,7 +1063,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/pubsandbars-nitelife.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+               
         fb_str=[NSString stringWithFormat: @"Pubs and Bars showing One Off Events %@",tempurl];
         
     }
@@ -1789,7 +1075,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/nightlife_pubs-bars.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+               
         
         fb_str=[NSString stringWithFormat: @"Pubs and Bars showing Regular Events %@",tempurl];
         
@@ -1799,7 +1085,7 @@ BOOL addedDone=NO;
         
         NSString *tempurl=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/viewpubs-bars.html"];
         tempurl = [tempurl stringByReplacingOccurrencesOfString:@" " withString:@"%20"]; 
-        
+               
         
         fb_str=[NSString stringWithFormat: @"Pubs and Bars showing Amenities %@",tempurl];
         
@@ -1807,7 +1093,7 @@ BOOL addedDone=NO;
     
     
     
-    
+
     [mailController setMessageBody:[NSString stringWithFormat:@"%@",fb_str] isHTML:NO];
     
     
@@ -1918,8 +1204,8 @@ BOOL addedDone=NO;
         
     }
     
-    
-    
+
+      
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:obj];
     [self presentModalViewController:nav animated:YES];
     [obj release];
@@ -2022,9 +1308,9 @@ BOOL addedDone=NO;
     [self presentModalViewController:nav animated:YES];
     [obj release];
     [nav release];
+
     
-    
-    
+
 }
 
 -(void) FBLoginDone:(id)objectDictionay
@@ -2041,11 +1327,11 @@ BOOL addedDone=NO;
     
     else if ([Name isEqualToString:@"Food & Offers"]){
         
-        fb_str=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/barfood-gastropubs.html"];
+    fb_str=[NSString stringWithFormat:@"http://www.pubandbar-network.co.uk/barfood-gastropubs.html"];
         
     }
-    
-    
+
+       
     else if ([Name isEqualToString:@"What's On Next 7 Days"] || [Name isEqualToString:@"What's On Tonight..."]){
         
         fb_str=[NSString stringWithFormat:@"Check out this great FREE app and search facility for finding pubs and bars” and then a bitly or tiny link to the http://itunes.apple.com/gb/app/pub-and-bar-network/id462704657?mt=8"];
@@ -2073,15 +1359,15 @@ BOOL addedDone=NO;
         
     }
     
-    else if([Name isEqualToString:@"Facilities" ]){
+     else if([Name isEqualToString:@"Facilities" ]){
+         
+         fb_str=[NSString stringWithFormat: @"http://www.pubandbar-network.co.uk/viewpubs-bars.html"];
+         
+     }
         
-        fb_str=[NSString stringWithFormat: @"http://www.pubandbar-network.co.uk/viewpubs-bars.html"];
         
-    }
     
-    
-    
-    
+   
     NSMutableDictionary *params = 
     [NSMutableDictionary dictionaryWithObjectsAndKeys:
      @"Greetings", @"name",
@@ -2094,7 +1380,7 @@ BOOL addedDone=NO;
     [[FacebookController sharedInstance].facebook dialog:@"feed"
                                                andParams:params
                                              andDelegate:self];    
-    
+
     // barButton.enabled = YES;
 }
 
@@ -2221,19 +1507,19 @@ BOOL addedDone=NO;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	/*if(Name==@"What's On Tonight..."){
-     return 7;
-     }
-     else if(Name==@"What's On Next 7 Days"){
-     return 7;
-     }
-     else{
-     return [catagoryArray count];
-     }*/
-    // if([Name isEqualToString:@"Facilities" ]){
-    //     return 2;
-    // }
-    //  else
-    
+        return 7;
+    }
+    else if(Name==@"What's On Next 7 Days"){
+        return 7;
+    }
+    else{
+    return [catagoryArray count];
+    }*/
+   // if([Name isEqualToString:@"Facilities" ]){
+   //     return 2;
+   // }
+   //  else
+         
     return [catagoryArray count];
     
 }
@@ -2273,7 +1559,7 @@ BOOL addedDone=NO;
         ;
         cell.backgroundColor = [UIColor colorWithRed:55.0/255.0 green:55.0/255.0 blue:55.0/255.0 alpha:1.0];
         //cell.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
-        
+      
 		vw1=[[[UIView alloc]init]autorelease];
         vw = [[[UIView alloc]init]autorelease];
         vw.autoresizingMask= UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -2285,8 +1571,8 @@ BOOL addedDone=NO;
         else{
             if ([Constant isPotrait:self]) {
                 
-                
-                vw1.frame =CGRectMake(0, 41, 480, 1);
+
+         vw1.frame =CGRectMake(0, 41, 480, 1);
             }
             else
             {
@@ -2298,28 +1584,28 @@ BOOL addedDone=NO;
             vw.frame =CGRectMake(10, 2, 300, 57);
             vw1.frame =CGRectMake(0, 65, 480, 1);
         }
-        
-        else if([Name isEqualToString:@"Facilities" ]){
+       
+       else if([Name isEqualToString:@"Facilities" ]){
             
             vw.frame =CGRectMake(0, 7, 320, 50);
         }
-        
+
         
         else{
             vw.frame =CGRectMake(0, 7, 320, 40);
         }
         
-        
-        //vw.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth; 
+               
+       //vw.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth; 
         vw.backgroundColor =[UIColor colorWithRed:55.0/255.0 green:55.0/255.0 blue:55.0/255.0 alpha:1.0];
         
         
         vw1.backgroundColor=[UIColor colorWithRed:98.0/255.0 green:111.0/255.0 blue:127.0/255.0 alpha:1];
-        // vw1.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
-        
+       // vw1.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+
         //[cell.contentView addSubview:vw];
         
-        [cell.contentView addSubview:vw1];
+         [cell.contentView addSubview:vw1];
 		topLabel =[[[UILabel alloc]init]autorelease];
         topLabel.frame =
         CGRectMake(20,0,170,37);
@@ -2381,7 +1667,7 @@ BOOL addedDone=NO;
             bottomlbl.textColor = [UIColor whiteColor];
             bottomlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
             bottomlbl.font = [UIFont boldSystemFontOfSize:10];
-            bottomlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+             bottomlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
             [cell.contentView addSubview:bottomlbl];
             
             endlbl =[[[UILabel alloc]initWithFrame:CGRectMake(235, 15, 100, 35)]autorelease];
@@ -2399,7 +1685,7 @@ BOOL addedDone=NO;
         
         if([Name isEqualToString:@"What's On Next 7 Days" ]){
             
-            nextImg.frame=CGRectMake(300, 26, 11, 11);
+             nextImg.frame=CGRectMake(300, 26, 11, 11);
             firstlbl = [[[UILabel alloc]initWithFrame:CGRectMake(2, 33, 100, 16)]autorelease];
             firstlbl.tag = FIRST_LABEL_TAG;
             firstlbl.font = [UIFont boldSystemFontOfSize:8];
@@ -2408,7 +1694,7 @@ BOOL addedDone=NO;
             firstlbl.backgroundColor = [UIColor clearColor];
             firstlbl.textColor = [UIColor whiteColor];
             firstlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
-            firstlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+             firstlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
             
             [cell.contentView addSubview:firstlbl];
             
@@ -2417,7 +1703,7 @@ BOOL addedDone=NO;
             topLabel.lineBreakMode = UILineBreakModeWordWrap;
             topLabel.numberOfLines = 2;
             
-            topLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+             topLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
             
             
             middlelbl =[[[UILabel alloc]initWithFrame:CGRectMake(120, 6, 125, 20)]autorelease]
@@ -2427,7 +1713,7 @@ BOOL addedDone=NO;
             middlelbl.textColor = [UIColor colorWithRed:0.0 green:189.0/255.0 blue:243.0/255.0 alpha:1.0];
             middlelbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
             middlelbl.font = [UIFont boldSystemFontOfSize:9];
-            middlelbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+             middlelbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
             
             [cell.contentView addSubview:middlelbl];
             
@@ -2437,7 +1723,7 @@ BOOL addedDone=NO;
             bottomlbl.textColor = [UIColor whiteColor];
             bottomlbl.highlightedTextColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.9 alpha:1.0];
             bottomlbl.font = [UIFont boldSystemFontOfSize:10];
-            bottomlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
+             bottomlbl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
             
             [cell.contentView addSubview:bottomlbl];
             
@@ -2451,22 +1737,22 @@ BOOL addedDone=NO;
             [cell.contentView addSubview:endlbl];
         }
     }
-    /*  else{
-     
-     if([Name isEqualToString:@"Facilities" ]){
-     
-     vw.frame =CGRectMake(0, 7, 320, 50);
-     }*/
-    
-    firstlbl = (UILabel *)[cell.contentView viewWithTag:FIRST_LABEL_TAG];
-    topLabel = (UILabel *)[cell.contentView viewWithTag:TOP_LABEL_TAG];
-    middlelbl = (UILabel *)[cell.contentView viewWithTag:MIDDLE_LABEL_TAG];
-    bottomlbl = (UILabel *)[cell.contentView viewWithTag:BOTTOM_LABEL_TAG];
-    endlbl = (UILabel *)[cell.contentView viewWithTag:END_LABEL_TAG];
-    nextImg = (UIImageView *)[cell.contentView viewWithTag:NEXT_IMG_TAG];
-    lbl_event=(UILabel *)[cell.contentView viewWithTag:EVENT_LABEL_TAG];
-    
-    
+  /*  else{
+        
+        if([Name isEqualToString:@"Facilities" ]){
+            
+            vw.frame =CGRectMake(0, 7, 320, 50);
+        }*/
+
+        firstlbl = (UILabel *)[cell.contentView viewWithTag:FIRST_LABEL_TAG];
+        topLabel = (UILabel *)[cell.contentView viewWithTag:TOP_LABEL_TAG];
+        middlelbl = (UILabel *)[cell.contentView viewWithTag:MIDDLE_LABEL_TAG];
+        bottomlbl = (UILabel *)[cell.contentView viewWithTag:BOTTOM_LABEL_TAG];
+        endlbl = (UILabel *)[cell.contentView viewWithTag:END_LABEL_TAG];
+		nextImg = (UIImageView *)[cell.contentView viewWithTag:NEXT_IMG_TAG];
+        lbl_event=(UILabel *)[cell.contentView viewWithTag:EVENT_LABEL_TAG];
+        
+        
     //}
     @try {
         if([Name isEqualToString:@"Sports on TV"]){
@@ -2482,30 +1768,30 @@ BOOL addedDone=NO;
             lbl_event.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"Name" ];
             middlelbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubName" ];
             bottomlbl.text = [ NSString stringWithFormat:@" %@",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubCity" ]];
-            // endlbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance" ];
+           // endlbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance" ];
             
             
             if ([GET_DEFAUL_VALUE(ShowsResultIN) isEqualToString:@"KM"])
             {
-                
-                endlbl.text= [NSString stringWithFormat: @"%d Km",(int)floor([[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"] doubleValue])];
+               
+                 endlbl.text= [NSString stringWithFormat: @"%d Km",(int)floor([[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"] doubleValue])];
                 
             }
+                else
+                    endlbl.text=[NSString stringWithFormat:@"%d Miles",(int)floor([[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192)];
+
+                
+                
+                
+                
+                
+         /*       endlbl.text= [NSString stringWithFormat: @"%@ Km",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]];
+                NSLog(@"Value  %@",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]);
+            }
             else
-                endlbl.text=[NSString stringWithFormat:@"%d Miles",(int)floor([[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192)];
-            
-            
-            
-            
-            
-            
-            /*       endlbl.text= [NSString stringWithFormat: @"%@ Km",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]];
-             NSLog(@"Value  %@",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]);
-             }
-             else
-             endlbl.text=[NSString stringWithFormat:@"%0.2f Miles",[[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192];*/
-            //  NSLog(@"DISTANCE   %@",[NSString stringWithFormat:@"%0.2f Miles",[[[pub_list objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192]);
-            
+                endlbl.text=[NSString stringWithFormat:@"%0.2f Miles",[[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192];*/
+          //  NSLog(@"DISTANCE   %@",[NSString stringWithFormat:@"%0.2f Miles",[[[pub_list objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192]);
+
             
             
             
@@ -2526,7 +1812,7 @@ BOOL addedDone=NO;
             middlelbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubName"];
             NSLog(@"%@",[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubCity"]);
             bottomlbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubCity"];
-            // endlbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"];
+           // endlbl.text = [[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"];
             
             
             if ([GET_DEFAUL_VALUE(ShowsResultIN) isEqualToString:@"KM"])
@@ -2535,10 +1821,10 @@ BOOL addedDone=NO;
                 endlbl.text=[NSString stringWithFormat:@"%d Miles",(int)floor([[[catagoryArray objectAtIndex:indexPath.row]valueForKey:@"PubDistance"]doubleValue]* 0.6213371192)];
             
             
-            //            topLabel.backgroundColor = [UIColor orangeColor];
-            //            topLabel.frame = CGRectMake(10, 0, 250, 40);
-            //            topLabel.font = [UIFont boldSystemFontOfSize:13];
-            //            topLabel.text = [[catagoryArray objectAtIndex:indexPath.row] valueForKey:@"Event_Name"];
+//            topLabel.backgroundColor = [UIColor orangeColor];
+//            topLabel.frame = CGRectMake(10, 0, 250, 40);
+//            topLabel.font = [UIFont boldSystemFontOfSize:13];
+//            topLabel.text = [[catagoryArray objectAtIndex:indexPath.row] valueForKey:@"Event_Name"];
         }
         //-------------------mb--25/05/12/5-45----------------------//
         else if([Name isEqualToString:@"Facilities" ])
@@ -2563,18 +1849,18 @@ BOOL addedDone=NO;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+   
     [self performSelector:@selector(addMBHud)];
-    
+
     [self performSelector:@selector(MoveToNextPage) withObject:nil afterDelay:1.0];
+        
     
-    
-    
+
 }
 
 -(void)MoveToNextPage{
     
-    
+      
     if([Name isEqualToString:@"Sports on TV"]){
         
         // vw.backgroundColor=[UIColor redColor];
@@ -2619,11 +1905,11 @@ BOOL addedDone=NO;
         for (int i=0; i<[catagoryArray count]; i++) {
             
             [arr_EventName addObject:[[catagoryArray objectAtIndex:i]valueForKey:@"Event_Name"]];
-            
+
         }
         
-        //        [arr_EventName addObject:@"Regular"];
-        //        [arr_EventName addObject:@"Sport on Tv"];
+//        [arr_EventName addObject:@"Regular"];
+//        [arr_EventName addObject:@"Sport on Tv"];
         
         NSArray *copy = [arr_EventName copy];
         NSInteger index = [copy count] - 1;
@@ -2635,13 +1921,13 @@ BOOL addedDone=NO;
         }
         [copy release];
         
-        
+       
         
         
         NSLog(@"Event Name ARRAY %@",arr_EventName);
         
-        // [arr_EventName addObject:@"Regular"];
-        
+       // [arr_EventName addObject:@"Regular"];
+       
         
         obj.array_EventName=[arr_EventName copy]; 
         
@@ -2670,7 +1956,7 @@ BOOL addedDone=NO;
         [obj_aminitiesDtls release];
     }
     //-----------------------------------// 
-    
+
     
 }
 
@@ -2680,8 +1966,8 @@ BOOL addedDone=NO;
 {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     _hud.labelText = @"Loading...";
-    // _hud.detailsLabelText = @"Loading Sport Event Details.";
-    
+   // _hud.detailsLabelText = @"Loading Sport Event Details.";
+       
 }
 #pragma mark Dismiss Hud
 
@@ -2699,7 +1985,7 @@ BOOL addedDone=NO;
     [searchUnit release];
     [toolBar release];
     [super dealloc];
-    
+
 }
 
 @end

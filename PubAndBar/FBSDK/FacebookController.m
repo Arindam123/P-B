@@ -10,7 +10,9 @@
 //#import "AppDelegate.h"
 
 
-static NSString* kAppId = @"421360004549377";//@"149607808476669";
+
+//App Secret d7d3198dec412b36d224ab2900b550bc
+static NSString* kAppId = @"212756008760";//@"149607808476669";
 
 
 @interface FacebookController ()
@@ -46,6 +48,12 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
 	return sharedInstance_;
 }
 
+- (BOOL)sessionValid
+{
+    return [facebook isSessionValid];
+}
+
+
 
 -(void) initialize
 {
@@ -72,7 +80,7 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
                                   nil];
         [alertView show];
         [alertView release];
-    } /*else {
+    } else {
         // Now check that the URL scheme fb[app_id]://authorize is in the .plist and can
         // be opened, doing a simple check without local app id factored in here
         NSString *url = [NSString stringWithFormat:@"fb%@://authorize",kAppId];
@@ -106,11 +114,14 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
             [alertView show];
             [alertView release];
         }
-    }*/
+    }
     
 //    permissions = [[NSArray alloc] initWithObjects:@"offline_access",@"email", nil];
 
-    permissions = [[NSArray alloc] initWithObjects:@"offline_access",@"email",@"publish_stream", nil];
+    
+    NSLog(@"token  %@  %@",facebook.accessToken,facebook.expirationDate);
+    
+    permissions = [[NSArray alloc] initWithObjects:@"publish_stream", nil];
     [self login];
 
 }
@@ -124,7 +135,7 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
     // and since the minimum profile picture size is 180 pixels wide we should be able
     // to get a 100 pixel wide version of the profile picture
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   @"SELECT uid, name, pic, email FROM user WHERE uid=me()", @"query",
+                                   @"SELECT uid, name, pic FROM user WHERE uid=me()", @"query",
                                    nil];
     //AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [[self facebook] requestWithMethodName:@"fql.query"
@@ -198,6 +209,8 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
 
 
 - (void)storeAuthData:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
+    
+    NSLog(@"token  %@  %@",accessToken,expiresAt);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
     [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
@@ -220,7 +233,7 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
 }
 
 -(void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
-    NSLog(@"token extended");
+    //NSLog(@"token extended");
     [self storeAuthData:accessToken expiresAt:expiresAt];
 }
 
@@ -277,7 +290,7 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
 
 -(void) postToFacebook :(NSMutableDictionary*)_params
 {
-    NSLog(@"postToFacebook _params  %@",_params);
+    //NSLog(@"postToFacebook _params  %@",_params);
     [[self facebook] requestWithGraphPath:@"me/feed" andParams:_params andHttpMethod:@"POST" andDelegate:self];
 }
 /**
@@ -353,9 +366,6 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
         }
     }
    
-        
-       
-   
     
 }
 
@@ -364,9 +374,9 @@ static NSString* kAppId = @"421360004549377";//@"149607808476669";
  * successfully.
  */
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
-    NSLog(@"Err message: %@", [[error userInfo] objectForKey:@"error_msg"]);
-    NSLog(@"Err code: %d", [error code]);
-    NSLog(@"ERR DEscription   %@",[error description]);
+    //NSLog(@"Err message: %@", [[error userInfo] objectForKey:@"error_msg"]);
+    //NSLog(@"Err code: %d", [error code]);
+    //NSLog(@"ERR DEscription   %@",[error description]);
  
     if ([fbDelegate respondsToSelector:@selector(RequestError:)]) {
         

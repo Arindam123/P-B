@@ -12,15 +12,15 @@
 #import "SaveSportDetailInfo.h"
 #import "ResultSet.h"
 #import "Toolbar.h"
-#import "ServerConnection.h"
+
 #import "FacebookController.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "Facebook.h"
 #import "MBProgressHUD.h"
-#import "EGORefreshTableHeaderView.h"
 
-@interface SportDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
+
+@interface SportDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
 
     
     UIView *vw_header;
@@ -51,12 +51,6 @@
     UIView *vw3;
     UIView *vw4;
     //UIView *vw5;
-    EGORefreshTableHeaderView *refreshHeaderView;
-	BOOL _reloading;
-    BOOL deletedDataCall;
-    NSString *deletedEventString;
-    
-    
     
 }
 @property(nonatomic,retain)NSString *str_title;
@@ -90,6 +84,5 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
-- (void)dataSourceDidFinishLoadingNewData;
--(void) deletedDataCalling:(int)_callerNumber;
+
 @end

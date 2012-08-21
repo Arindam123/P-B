@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class RestaurantFinderAppDelegate;
+@class AppDelegate;
 
 @interface XML4Route : NSObject <NSXMLParserDelegate>{
 	
@@ -18,7 +18,7 @@
 	
 	NSMutableString *attributeStrId;
 	NSMutableString *attributeStrNm;	
-	RestaurantFinderAppDelegate *appDel;
+	AppDelegate *appDel;
 	
 		
 }

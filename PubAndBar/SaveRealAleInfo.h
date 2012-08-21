@@ -13,7 +13,11 @@
 
 }
 
-+(NSMutableArray *)GetAleInfo :(NSString *)_radius;
++(NSMutableArray *)GetAleInfo;
 
+
++(NSMutableArray *)GetSearchAleInfo:(NSString *)_name;
++(NSMutableArray *)GetSearchBeerInfo:(NSString *)_name;
++(NSMutableArray *)GetSearchAleInfoFromBeer:(NSString *)_name;
 
 @end

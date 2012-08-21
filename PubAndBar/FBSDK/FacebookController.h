@@ -31,6 +31,8 @@ FBSessionDelegate>{
 + (FacebookController *)sharedInstance;
 -(void) initialize;
 -(void) postToFacebook :(NSMutableDictionary*)_params;
+- (BOOL)sessionValid;
+
 @end
 
 

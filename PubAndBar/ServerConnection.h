@@ -7,9 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ASIHTTPRequest.h"
+
+@protocol ServerConnectionDelegate;
+
+@protocol ServerConnectionDelegate <NSObject>
+@required
+-(void)afterSuccessfulConnection:(id)msg;
+-(void)afterFailourConnection:(id)msg;
+@end
 
 
-@interface ServerConnection : NSObject {
+@interface ServerConnection : NSObject<ASIHTTPRequestDelegate,ASIProgressDelegate> {
 
 	NSURLConnection *allServerconn;
 	
@@ -21,8 +30,12 @@
 	SEL afterSuccessfulConnectionMethod;
 	SEL afterFailourConnectionMethod;
 	int forConnectionType;
-    
+    id <ServerConnectionDelegate> serverDelegate;
+
 }
+
+@property (nonatomic,assign) id <ServerConnectionDelegate> serverDelegate;
+
 
 - (void)passInformationFromTheClass:(id)fromClass_
 		  afterSuccessfulConnection:(SEL)afterSuccessfulConnectionMethod_
@@ -34,6 +47,7 @@
 
 //------------------mb*--25/05/12/5-45---------------------------//
 -(void)getEventsData:(NSString*) withreference;
+-(void)getThmeNightData:(NSString*) withreference;
 
 -(void)getSportsData:(NSString *) withReference;
 
@@ -42,6 +56,24 @@
 
 
 
+//Delete Events
+
+-(void) deleteEventsData:(NSString*) withreference;
+-(void) deleteThemeNightData:(NSString*) withreference;
+-(void) deleteOneOffData:(NSString*) withreference;
+
+
+-(void) deleteSportsData:(NSString*) withreference;
+-(void) deleteRealAleData:(NSString*) withreference;
+-(void) deleteFoodData:(NSString*) withreference;
+-(void) deleteFacilityData:(NSString*) withreference;
+
+
+//Non Sub Pubs
+
+
+-(void) getNonSubPubs:(int) _value withDate:(NSString *) _date;
+-(void) getNewAddedSubPubs:(NSString*) withreference;
 
 
 

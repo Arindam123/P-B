@@ -22,7 +22,12 @@
     UIView *bar_vw;
     UILabel *homeTextLbl;
     UILabel *eventTextLbl;
+    UIButton *btn_Refresh;
+    CALayer *maskLayer;
+    UIImageView *refreshIconBg;
+
 }
+@property(nonatomic,retain)UIImageView *refreshIconBg;
 @property(nonatomic,retain)UINavigationBar *navBar;
 @property(nonatomic,retain)UIButton *backButton;
 @property(nonatomic,retain)UIView *mainNavigationView;
@@ -31,10 +36,13 @@
 @property(nonatomic,retain)UIButton *btn_licenselogin;
 @property(nonatomic,retain)UIView *bar_vw;
 @property(nonatomic,retain)UILabel *eventTextLbl;
+@property(nonatomic,retain)UIButton *btn_Refresh;
+@property(nonatomic,retain)CALayer *maskLayer;
+
 
 
 -(UIView *)CreateCustomNavigationView;
--(void)SetCustomNavBarFrame ;
+-(void)SetCustomNavBarFrame;
 
 //-(void)CreateBackView;
 //-(void)setbackViewFrame;

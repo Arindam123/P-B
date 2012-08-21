@@ -15,5 +15,8 @@
 }
 
 
-+(NSMutableArray *)GetBeerInfo :(NSString*)ID;
++(NSMutableArray *)GetBeerInfo :(NSString*)ID radius:(NSString *)_rad beer_Name:(NSString *)_str;
+
++(NSMutableArray *)GetSearchBeerInfo:(NSString*)Ale radius:(NSString *)_rad;
+
 @end

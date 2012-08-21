@@ -19,6 +19,7 @@
 +(BOOL)isiPad;
 +(BOOL)isPotrait:(UIViewController*)controller;
 +(CLLocationDistance)GetDistanceFromPub:(NSString*)_lat longitude:(NSString*)_long;
++(NSString*)GetCurrentDate;
 +(NSString*)GetCurrentDateTime;
 
 @end

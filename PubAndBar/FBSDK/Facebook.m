@@ -331,7 +331,7 @@ static void *finishedContext = @"finishedContext";
 - (void)authorize:(NSArray *)permissions {
     self.permissions = permissions;
     
-    [self authorizeWithFBAppAuth:YES safariAuth:NO];
+    [self authorizeWithFBAppAuth:YES safariAuth:YES];
 }
 
 /**
@@ -515,7 +515,7 @@ static void *finishedContext = @"finishedContext";
 - (FBRequest*)requestWithParams:(NSMutableDictionary *)params
                     andDelegate:(id <FBRequestDelegate>)delegate {
     if ([params objectForKey:@"method"] == nil) {
-        NSLog(@"API Method must be specified");
+        //NSLog(@"API Method must be specified");
         return nil;
     }
     

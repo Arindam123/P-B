@@ -16,7 +16,7 @@
 #import "FacebookController.h"
 #import "MyPreferences.h"
 #import "Facebook.h"
-#import "OAuthLoginView.h"
+//#import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
 

@@ -18,10 +18,8 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "Facebook.h"
 #import "Toolbar.h"
-#import "ServerConnection.h"
-#import "EGORefreshTableHeaderView.h"
 
-@interface RealAle : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,UISearchBarDelegate,ServerConnectionDelegate>{
+@interface RealAle : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,UISearchBarDelegate>{
     
     UITableView *table_realale;
     NSMutableArray *aleArray;
@@ -50,12 +48,6 @@
     //UISearchBar *searchingBar;
     UILabel *searchLabel;
     
-    EGORefreshTableHeaderView *refreshHeaderView;
-	BOOL _reloading;
-    BOOL deletedDataCall;
-    NSString *deletedEventString;
-
-    
 }
 @property (nonatomic,retain)UIView *vw_search;
 @property (nonatomic,retain)UILabel *Title_lbl;
@@ -66,7 +58,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-@property(assign,getter=isReloading) BOOL reloading;
+
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
 
 @property (nonatomic,retain) UITableView *table_realale;
@@ -92,6 +84,5 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
-- (void)dataSourceDidFinishLoadingNewData;
--(void) deletedDataCalling:(int)_callerNumber;
+
 @end

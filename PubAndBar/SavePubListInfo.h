@@ -13,7 +13,7 @@
     
 }
 +(NSMutableArray *)GetPubDetailsInfo:(int)ID withCategoryStr:(NSString *) catStr withRadius:(NSString *) _radius;
-+(NSMutableArray *)GetPubDetailsInfo1:(int)CatagoryID withID:(int)ID withCategoryStr:(NSString *) catStr;
++(NSMutableArray *)GetPubDetailsInfo1:(int)CatagoryID withID:(int)ID withCategoryStr:(NSString *) catStr withEventTypeID:(NSString *) eventTypeID;
 
 //--------------------------mb---25/05/12/5-45-------------------------------//
 +(NSMutableArray *)GetPubDetailsInfo:(NSMutableArray *)array AmmenityID:(int)ammenityID radius:(NSString *)rad ;

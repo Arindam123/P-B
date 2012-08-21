@@ -14,12 +14,12 @@
     
 
 }
-+(NSMutableArray *)GetEventInfo;
++(NSMutableArray *)GetEventInfo :(NSString *) _radius;
 +(BOOL)Pub_isInDistnce_Intype:(NSString*)event_type;
 //+(NSMutableArray *)GetEventInfo:(NSString*)_radius;
 +(BOOL)Pub_isInDistnce_Intype:(NSString*)event_type;
-+(void)ServiceEvents;//:(NSString*)rad;
-+(void)ToNightEvents;
-+(void)SevenDaysEvent;
++(void)ServiceEvents :(NSString *) _radius;//:(NSString*)rad;
++(void)ToNightEvents :(NSString *) _radius;
++(void)SevenDaysEvent :(NSString *) _radius;
 
 @end
