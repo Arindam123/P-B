@@ -16,16 +16,18 @@
 #import "MyPreferences.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
 #import "Toolbar.h"
+#import "ServerConnection.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RealAle : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate>{
+@interface RealAle : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,UISearchBarDelegate,ServerConnectionDelegate>{
     
     UITableView *table_realale;
     NSMutableArray *aleArray;
+    NSMutableArray *searchArray;
     UIButton *backButton;
-    UIButton *btnsearch;
+    //UIButton *btnsearch;
     UITextField *text_field;
     UILabel *topLabel;
     UIImageView *nextImg;
@@ -35,7 +37,7 @@
     NSString *searchRadius;
     NSString *searchUnit;
     Toolbar *toolBar;
-    
+    UIView *line_vw;
     ////////////////////////////JHUMA////////////////////////////////////////////////////////////
     
     UILabel *Title_lbl;
@@ -44,18 +46,27 @@
     
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
+    MBProgressHUD *_hud;
+    //UISearchBar *searchingBar;
+    UILabel *searchLabel;
     
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
+
     
 }
 @property (nonatomic,retain)UIView *vw_search;
 @property (nonatomic,retain)UILabel *Title_lbl;
 @property(nonatomic,retain)UIImageView *img_1stLbl;
+//@property(nonatomic,retain)UISearchBar *searchingBar;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+@property(assign,getter=isReloading) BOOL reloading;
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
 
 @property (nonatomic,retain) UITableView *table_realale;
@@ -81,5 +92,6 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
-
+- (void)dataSourceDidFinishLoadingNewData;
+-(void) deletedDataCalling:(int)_callerNumber;
 @end

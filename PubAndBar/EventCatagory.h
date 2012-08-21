@@ -14,13 +14,14 @@
 #import "MyPreferences.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
-
+#import "AppDelegate.h"
 #import "Toolbar.h"
+#import "ServerConnection.h"
+#import "URLRequestString.h"
+#import "EGORefreshTableHeaderView.h"
 
-
-@interface EventCatagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
+@interface EventCatagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
     
      UITableView *table_eventcatagory;
     UILabel *lbl_heading;
@@ -32,16 +33,23 @@
     NSString *title;
     UILabel *topLabel;
     UIImageView *nextImg;
-    
+     MBProgressHUD *_hud;
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
     Toolbar *toolBar;
     NSString *strPagename;
-
-
-
+    UIView *vw1;
+    UIButton *reccomonendVenueBtn;
+    AppDelegate *delegate ;
+    NSString *str_RefName;
+    
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
 
 }
+@property(assign,getter=isReloading) BOOL reloading;
 @property(nonatomic,retain)UIButton *backButton;
 @property(nonatomic,retain)UITableView *table_eventcatagory;
 @property(nonatomic,retain)NSArray *eventArray;
@@ -64,4 +72,6 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
+-(void)dataSourceDidFinishLoadingNewData;
+-(void) DataCalling4deleted:(int)_callerNumber;
 @end

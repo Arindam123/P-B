@@ -18,12 +18,13 @@
 #import "MyPreferences.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
+#import "ServerConnection.h"
+
+@class EGORefreshTableHeaderView;
 
 
-
-@interface PubList : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
+@interface PubList : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
     
     UIView *vw_header;
     UILabel *frstlbl;
@@ -60,19 +61,72 @@
     UIButton *list_btn;
     UIButton *map_btn;
     UIView *btn_view;
+   
     
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
+    NSString *_Eventpage;
+    NSMutableArray *array_EventName;
+    
+    NSMutableArray *openingHours4Day;
+    NSMutableArray *openingHours4Hours;
+    NSMutableArray *bulletPointArray;
+    NSMutableArray *array_realAle;
+    NSMutableArray *array_sportEvent;
+    NSMutableArray *array_EventDetails;
+    NSMutableDictionary *arry_pubinformation;
+    BOOL IsSelect;
+    
+    
+    
+    UIImage *rowBackGround;
+    UIImage *selectBackGround;
+    
+    UIView *vw1;
+    UIView *vw2;
+    UIView *vw3;
+    UIView *vw4;
+    UIView *vw5;
+    
 
+    
+    
+    //--------------------------//
+    //UIButton *_venu_btn;
+    NSMutableArray *_pub_list;
+    BOOL shiftToNextPage;
+    
+    AppDelegate *delegate ;
+    NSString *str_sportDesc;
+     NSString *Day;
+    
+    NSString *eventTypeId;
+
+    NSString *str_RefName;
+    
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
 
 }
-
+@property(assign,getter=isReloading) BOOL reloading;
+@property(nonatomic,retain)NSString *eventTypeId;
+@property(nonatomic,retain)NSString *Day;
+@property(nonatomic,retain)NSMutableArray *array_EventName;
+@property(nonatomic,retain)NSMutableArray *array_EventDetails;
+@property(nonatomic,retain)NSString *str_sportDesc;
+@property(nonatomic,retain)NSMutableArray *array_sportEvent;
 @property(nonatomic,retain)UILabel *Title_lbl;
 @property(nonatomic,retain)UIImageView *img_1stLbl;
 @property(nonatomic,retain)UIImageView *img_2ndLbl;
 @property(nonatomic,retain)UIImageView *img_3rdLbl;
 @property(nonatomic,retain)UIImageView *img_4thLbl;
 @property(nonatomic,retain)UIImageView *img_5thLbl;
+
+@property(nonatomic,retain) NSMutableArray *bulletPointArray;
+@property(nonatomic,retain)NSMutableArray *openingHours4Day;
+@property(nonatomic,retain)NSMutableArray *openingHours4Hours;
 
 @property(nonatomic,retain)NSString *str_AlePostcode;
 @property(nonatomic,retain)NSString *eventName;
@@ -93,6 +147,10 @@
 @property(nonatomic,retain)NSString *eventID;
 @property(nonatomic,retain) NSString *searchRadius;
 @property(nonatomic,retain) NSString *categoryStr;
+@property(nonatomic,retain)NSString *_Eventpage;
+//-------------------------//
+//@property(nonatomic,retain) UIButton *_venu_btn;
+//@property(nonatomic,retain) NSMutableArray *_pub_list;
 
 
 //------------------------mb-25/05/12/5-45---------------
@@ -114,5 +172,12 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
+
+//---------------------------------------------------------//
+
+-(IBAction)MorebtnClick:(id)sender;
+-(void)_callingMapview;
+-(void) deletedDataCalling:(int)_callerNumber;
+- (void)dataSourceDidFinishLoadingNewData;
 
 @end

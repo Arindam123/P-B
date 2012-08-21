@@ -15,15 +15,16 @@
 #import "MyPreferences.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
 #import "Toolbar.h"
+#import "ServerConnection.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RealAleDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate>{
+@interface RealAleDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,ServerConnectionDelegate>{
     
     UITableView *tableale;
     UIButton *backButton;
-    UIButton *btnsearch;
+    //UIButton *btnsearch;
     UITextField *text_field;
     NSString *aledetails;
     NSMutableArray *detailsArray;
@@ -41,14 +42,23 @@
     NSString *str_breweryName;
     NSString *strPostcode;
     UIImageView *img_1stLbl;
-    
+     MBProgressHUD *_hud;
     Toolbar *toolBar;
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
     
-    
+    NSMutableString *str;
+    UILabel *lblHeader;
+    NSMutableArray *searchArray;
+    UILabel *searchLabel;
+    CGSize expectedLabelSize;
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
     
 }
+@property(assign,getter=isReloading) BOOL reloading;
 @property (nonatomic,retain)NSString *strPostcode;
 @property (nonatomic,retain)UILabel *Title_lbl;
 @property (nonatomic,retain)UIView *vw_search;
@@ -61,7 +71,7 @@
 
 @property(nonatomic,retain) UITableView *tableale;
 @property(nonatomic,retain)UIButton *backButton;
-@property(nonatomic,retain)UIButton *btnsearch;
+//@property(nonatomic,retain)UIButton *btnsearch;
 @property(nonatomic,retain)UITextField *text_field;
 @property(nonatomic,retain)NSString *aledetails;
 @property(nonatomic,retain) NSMutableArray *detailsArray;
@@ -75,6 +85,7 @@
 @property (nonatomic,retain) NSString *searchUnit;
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
 
+@property (nonatomic, retain) NSMutableString *str;
 
 
 -(void)CreateView;
@@ -83,5 +94,7 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
+- (void)dataSourceDidFinishLoadingNewData;
+-(void) deletedDataCalling:(int)_callerNumber;
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil withString:(NSString *) _str3 andString:(NSString *) _str8;
 @end

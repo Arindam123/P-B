@@ -16,13 +16,18 @@
 #import "Facebook.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "ServerConnection.h"
 
-@interface Catagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate>{
+
+@class EGORefreshTableHeaderView;
+
+
+@interface Catagory : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,FBDialogDelegate,MFMailComposeViewControllerDelegate,ServerConnectionDelegate>{
     
     UITableView *table_catagory;
     UILabel *lbl_heading;
     NSMutableArray *catagoryArray;
-    NSMutableArray *temparray;
+  //  NSMutableArray *temparray;
     NSString *Name;
     UIButton *backButton;
     UIImageView *nextImg;
@@ -40,8 +45,21 @@
     
     Facebook *facebook;
     OAuthLoginView *oAuthObj;
+    NSString *Event_page;
+     MBProgressHUD *_hud;
+    UIView *vw;
+    UIView *vw1;
+    NSString *str_RefName;
+    
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
 
 }
+@property(assign,getter=isReloading) BOOL reloading;
+
+@property (retain) MBProgressHUD *hud;
 @property(nonatomic,retain) UITableView *table_catagory;
 @property(nonatomic,retain)UILabel *lbl_heading;
 @property(nonatomic,retain)NSMutableArray *catagoryArray;
@@ -54,7 +72,7 @@
 @property(nonatomic,retain)UILabel *endlbl;
 @property(nonatomic,retain)UILabel *firstlbl;
 @property(nonatomic,retain)UILabel *datelbl;
-@property(nonatomic,retain)NSMutableArray *temparray;
+//@property(nonatomic,retain)NSMutableArray *temparray;
 @property(nonatomic,retain)NSString *eventID;
 @property(nonatomic,retain)NSString *dateString;
 
@@ -62,6 +80,8 @@
 @property(nonatomic,retain)NSString *searchUnit;
 
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
+@property(nonatomic,retain)NSString *Event_page;
+
 
 
 
@@ -73,5 +93,6 @@
 -(void)AddNotification;
 -(void) wallPosting;
 -(void)displayEmailComposerSheet;
+//-(void)MoveToSportEvent;
 
 @end

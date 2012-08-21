@@ -12,16 +12,15 @@
 #import "SaveSportDetailInfo.h"
 #import "ResultSet.h"
 #import "Toolbar.h"
-
+#import "ServerConnection.h"
 #import "FacebookController.h"
 #import "OAuthLoginView.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "iCodeOauthViewController.h"
 #import "Facebook.h"
+#import "MBProgressHUD.h"
+#import "EGORefreshTableHeaderView.h"
 
-
-
-@interface SportDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate>{
+@interface SportDetail : ButtonAction<UITableViewDelegate,UITableViewDataSource,FacebookControllerDelegate,MFMailComposeViewControllerDelegate,FBDialogDelegate,ServerConnectionDelegate>{
 
     
     UIView *vw_header;
@@ -38,21 +37,35 @@
     NSString *searchRadius;
     NSString *searchUnit;
     Toolbar *toolBar;
-    
+     MBProgressHUD *_hud;
 ////////////////////////JHUMA///////////////////////////////////
     UILabel *Title_lbl;
     NSString *str_title;
+    UIButton *venu_btn;
+    NSMutableArray *arr;
     
     OAuthLoginView *oAuthObj;
     Facebook *facebook;
+    UIView *vw1;
+    UIView *vw2;
+    UIView *vw3;
+    UIView *vw4;
+    //UIView *vw5;
+    EGORefreshTableHeaderView *refreshHeaderView;
+	BOOL _reloading;
+    BOOL deletedDataCall;
+    NSString *deletedEventString;
+    
+    
     
 }
 @property(nonatomic,retain)NSString *str_title;
 @property(nonatomic,retain)UILabel *Title_lbl;
+@property(nonatomic,retain)NSMutableArray *arr;
 
 /////////////////////////////////////////////////////////////////
 
-
+@property(nonatomic,retain)UIButton *venu_btn;
 @property(nonatomic,retain)UIView *vw_header;
 @property(nonatomic,retain)UILabel *frstlbl;
 @property(nonatomic,retain)UILabel *secndlbl;
@@ -69,7 +82,7 @@
 @property(nonatomic,retain)NSString *searchUnit;
 
 @property (nonatomic, retain) OAuthLoginView *oAuthLoginView;
-
+@property (retain) MBProgressHUD *hud;
 
 -(void)CreateView;
 -(void)setViewFrame;
@@ -77,5 +90,6 @@
 -(void)AddNotification;
 -(void)displayEmailComposerSheet;
 -(void)wallPosting;
-
+- (void)dataSourceDidFinishLoadingNewData;
+-(void) deletedDataCalling:(int)_callerNumber;
 @end

@@ -154,7 +154,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "421"
          endingLineNumber = "421"
-         landmarkName = "-setViewFrame"
+         landmarkName = "-callingServer4Update"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -266,8 +266,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "109"
          endingLineNumber = "109"
-         landmarkName = "-viewDidLoad"
-         landmarkType = "5">
+         landmarkName = "@implementation PubList"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -378,7 +378,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "658"
          endingLineNumber = "658"
-         landmarkName = "-dialogCompleteWithUrl:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -392,7 +392,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "714"
          endingLineNumber = "714"
-         landmarkName = "-numberOfSectionsInTableView:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -406,8 +406,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "150"
          endingLineNumber = "150"
-         landmarkName = "@implementation PubList"
-         landmarkType = "3">
+         landmarkName = "-viewDidLoad"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -420,7 +420,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "303"
          endingLineNumber = "303"
-         landmarkName = "-CreateView"
+         landmarkName = "-showOrHideMorebutton"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -434,7 +434,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "341"
          endingLineNumber = "341"
-         landmarkName = "-List_btnClick:"
+         landmarkName = "-callingServer4Update"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -448,8 +448,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "403"
          endingLineNumber = "403"
-         landmarkName = "@implementation PubList"
-         landmarkType = "3">
+         landmarkName = "-callingServer4Update"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -462,7 +462,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "777"
          endingLineNumber = "777"
-         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -476,7 +476,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "746"
          endingLineNumber = "746"
-         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -490,8 +490,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "404"
          endingLineNumber = "404"
-         landmarkName = "@implementation PubList"
-         landmarkType = "3">
+         landmarkName = "-callingServer4Update"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -504,7 +504,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "405"
          endingLineNumber = "405"
-         landmarkName = "-setViewFrame"
+         landmarkName = "-callingServer4Update"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -518,7 +518,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "844"
          endingLineNumber = "844"
-         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -532,7 +532,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "799"
          endingLineNumber = "799"
-         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -574,7 +574,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "581"
          endingLineNumber = "581"
-         landmarkName = "-Settings:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -588,7 +588,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "503"
          endingLineNumber = "503"
-         landmarkName = "-AddNotification"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -630,7 +630,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "86"
          endingLineNumber = "86"
-         landmarkName = "-viewDidLoad"
+         landmarkName = "-initWithNibName:bundle:withCategoryStr:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -658,7 +658,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1007"
          endingLineNumber = "1007"
-         landmarkName = "-afterSuccessfulConnection:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -672,7 +672,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1107"
          endingLineNumber = "1107"
-         landmarkName = "-afterSuccessfulConnection:"
+         landmarkName = "-requestFinished:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
